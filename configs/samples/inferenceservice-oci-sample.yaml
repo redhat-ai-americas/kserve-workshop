@@ -1,0 +1,26 @@
+# Example InferenceService for ONNX in an OCI image (OpenVINO / OVMS-style runtime).
+# Replace placeholders before applying. Runtime name must exist on your cluster:
+#   oc get servingruntime -n <namespace>
+#
+# Reference: https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform
+---
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: sample-isvc-oci
+  namespace: REPLACE_WITH_YOUR_PROJECT
+spec:
+  predictor:
+    model:
+      # Example only — use the ServingRuntime name from your cluster (e.g. kserve-ovms).
+      runtime: kserve-ovms
+      modelFormat:
+        name: onnx
+      storageUri: oci://quay.io/REPLACE_ORG/REPLACE_REPO:REPLACE_TAG
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "500Mi"
+        limits:
+          cpu: "500m"
+          memory: "4Gi"

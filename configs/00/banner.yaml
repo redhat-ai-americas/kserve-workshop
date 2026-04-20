@@ -1,0 +1,9 @@
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+  name: banner-kserve-workshop
+spec:
+  text: "Red Hat OpenShift AI — KServe Single-Model Serving Workshop"
+  location: BannerTop
+  color: '#FFF'
+  backgroundColor: '#9F0000'

@@ -1,0 +1,55 @@
+# 1. Overview of the single-model serving platform and model storage
+
+<p align="center">
+<a href="/docs/00-setup.md">Prev</a>
+&nbsp;&nbsp;&nbsp;
+<a href="/docs/02-preparing-and-storing-models.md">Next</a>
+</p>
+
+### Objectives
+
+- Explain how **KServe RawDeployment** on the single-model serving platform fits large or resource-heavy models.
+- Compare storage and serving options so participants can choose appropriately in their environment.
+
+### Rationale
+
+- Serving architecture and storage choices directly affect startup time, operability, and cost. Aligning terminology with the product docs avoids confusion during dashboard and YAML labs.
+
+### Takeaways
+
+- One model instance maps to a dedicated serving path on this platform; storage can be **URI/S3**, **OCI**, or **PVC**.
+- **OCI model images (model cars)** reduce duplication and can improve startup compared to repeatedly syncing large trees to PVCs.
+
+## Core concepts
+
+**Single-model serving (KServe RawDeployment)**  
+Each deployed model gets its own serving deployment. This pattern suits **large language models** and other workloads that need isolation and predictable resources. Details and diagrams are in Red Hat’s guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+
+**Other approaches (context only)**  
+- **Distributed inference** (for example **llm-d** where available): scaled-out LLM inference across multiple pods.  
+- **NVIDIA NIM**: optimized inference microservices; optional extension in [Topic 7](/docs/07-nim-extension.md).
+
+**Model storage**
+
+| Approach | Typical use |
+|----------|-------------|
+| **S3 / HTTP(S) URI** | Central object store; good for shared artifacts and automation. |
+| **OCI image** | Pack model weights and layout into an image; **pre-fetch** and less disk churn on the node; aligns with “model car” patterns in documentation. |
+| **PVC** | Simple upload from a workbench; good for smaller artifacts or teams without a registry workflow. |
+
+## Hands-on (facilitator demo, ~10 min)
+
+- [ ] In OpenShift AI: **Projects** → your project → **Deployments** → start **Deploy model** (wording may be **Serve model** or **Add model** depending on version).
+- [ ] Walk through the first screen: model **location** and **type** (predictive vs generative) without submitting.
+- [ ] Discuss where each storage type appears and when OCI is preferable for **large** models.
+
+## Exercise (participants, ~5 min)
+
+- [ ] Open the deploy wizard and identify: storage source fields, runtime selection (auto vs manual), and hardware profile (if shown).
+- [ ] Note one question for Q&A (for example GPU vs CPU runtime).
+
+<p align="center">
+<a href="/docs/00-setup.md">Prev</a>
+&nbsp;&nbsp;&nbsp;
+<a href="/docs/02-preparing-and-storing-models.md">Next</a>
+</p>

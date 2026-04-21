@@ -20,11 +20,20 @@
 - **Auto runtime** matches hardware and model format when possible; use **manual** when multiple runtimes apply or when admins require a specific stack.
 - **RollingUpdate** favors availability when enough resources exist; **Recreate** can succeed on tighter quotas but causes brief downtime.
 
-## Platform flow (check against current UI)
+## Open the Deploy model flow
 
-Follow the official doc section for labels in your release: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+Deploy into **the same Data Science project** you created in [Topic 0](/docs/00-setup.md) with `oc new-project` (the namespace you use for all lab steps—the project you opened for the overview demo in [Topic 1](/docs/01-overview-and-storage.md)).
 
-Typical stages:
+1. In the **OpenShift AI** dashboard, go to **Projects**.
+2. Select **that project** so you are working inside it (not the cluster-wide list only).
+3. Open the **Deployments** tab for the project.
+4. Click **Deploy model** to start the flow described in the next section.
+
+> If **Deploy model** is missing, confirm you are inside the correct project, that [Topic 0](/docs/00-setup.md) verification passed, and that single-model serving is enabled for your cluster.
+
+## Platform flow
+
+Typical stages (after **Deploy model**):
 
 1. **Model details** — Name, **location** (URI, OCI, PVC), **type** (predictive vs generative).  
 2. **Model deployment** — Display name, **hardware profile**, CPU/memory (and GPU if applicable), **ServingRuntime** (auto or pick from list).  
@@ -32,7 +41,7 @@ Typical stages:
 
 ## Runtime selection
 
-For the **MobileNet ONNX** sample from [Topic 2](/docs/02-preparing-and-storing-models.md), choose a **predictive** / **ONNX**-capable runtime (often **OpenVINO / OVMS**, for example a `ServingRuntime` named like `kserve-ovms` on CPU).
+For the **MobileNet ONNX** sample from [Topic 2](/docs/02-preparing-and-storing-models.md), choose a **predictive** / **ONNX**-capable runtime (often **OpenVINO**, for example a `ServingRuntime` named like `kserve-ovms` on CPU).
 
 - **Automatic** — Platform picks a runtime consistent with format and accelerator (for example GPU + generative → vLLM variant on many clusters).  
 - **Manual** — Use when you must pin OpenVINO, Caikit, or a custom `ServingRuntime`.  
@@ -49,6 +58,7 @@ Some distributed or llm-d related defaults prefer **Recreate**; confirm in your 
 
 ## Hands-on exercise (~25–35 min)
 
+- [ ] In your **Topic 0** project: **Deployments** → **Deploy model** (see [Open the Deploy model flow](#open-the-deploy-model-flow) above).  
 - [ ] Deploy the **MobileNet** artifact you prepared in [Topic 2](/docs/02-preparing-and-storing-models.md) (PVC **or** `oci://` image).  
 - [ ] Select appropriate **hardware** and **runtime** (auto unless you need manual).  
 - [ ] Optionally register an **AI asset** if your organization uses the model registry integration.  

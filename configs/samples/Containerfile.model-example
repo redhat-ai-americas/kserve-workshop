@@ -1,6 +1,6 @@
 # Example Containerfile for packaging model artifacts for OCI-backed serving.
 # Adjust BASE, paths, and USER to match your security policy and runtime expectations.
-# Many runtimes expect a versioned folder such as models/1/.
+# Many runtimes expect a versioned path under models/ (e.g. models/1/... or models/<name>/1/... per your ServingRuntime).
 
 FROM registry.access.redhat.com/ubi9/ubi-micro:latest
 

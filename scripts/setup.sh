@@ -44,12 +44,12 @@ validate_cli(){
 }
 
 help(){
-  loginfo "KServe workshop prerequisite setup (Web Terminal + sample namespace banner)"
+  loginfo "KServe workshop prerequisite setup (Web Terminal + console banner + tooling)"
   loginfo "Usage: $(basename "$0") -s <step-number>"
   loginfo "Options:"
   loginfo " -h, --help   usage"
   loginfo " -s, --step   step number (required)"
-  loginfo "        0       - Install prerequisites (Web Terminal, console banner, models namespace)"
+  loginfo "        0       - Install prerequisites (Web Terminal, console banner, tooling template)"
   return 0
 }
 

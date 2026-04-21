@@ -32,6 +32,8 @@ Typical stages:
 
 ## Runtime selection
 
+For the **MobileNet ONNX** sample from [Topic 2](/docs/02-preparing-and-storing-models.md), choose a **predictive** / **ONNX**-capable runtime (often **OpenVINO / OVMS**, for example a `ServingRuntime` named like `kserve-ovms` on CPU).
+
 - **Automatic** — Platform picks a runtime consistent with format and accelerator (for example GPU + generative → vLLM variant on many clusters).  
 - **Manual** — Use when you must pin OpenVINO, Caikit, or a custom `ServingRuntime`.  
 - **Admin defaults** — Some clusters set defaults for distributed or specialized stacks; if behavior surprises you, check cluster `ServingRuntime` and `InferenceService` defaults with your platform team.
@@ -47,7 +49,7 @@ Some distributed or llm-d related defaults prefer **Recreate**; confirm in your 
 
 ## Hands-on exercise (~25–35 min)
 
-- [ ] Deploy the model you prepared in [Topic 2](/docs/02-preparing-and-storing-models.md) (OCI or PVC).  
+- [ ] Deploy the **MobileNet** artifact you prepared in [Topic 2](/docs/02-preparing-and-storing-models.md) (PVC **or** `oci://` image).  
 - [ ] Select appropriate **hardware** and **runtime** (auto unless you need manual).  
 - [ ] Optionally register an **AI asset** if your organization uses the model registry integration.  
 - [ ] Deploy and wait until the **Deployments** (or model list) shows **Ready**.  

@@ -33,7 +33,7 @@ Install or update runtimes according to [Red Hat documentation](https://docs.red
 
 ## InferenceService example (public OCI)
 
-This repository includes a commented sample: [`configs/samples/inferenceservice-oci-sample.yaml`](/configs/samples/inferenceservice-oci-sample.yaml).
+This repository includes a commented sample: [`configs/samples/inferenceservice-oci-sample.yaml`](/configs/samples/inferenceservice-oci-sample.yaml). It assumes you built and pushed the **MobileNet** image from [Topic 2](/docs/02-preparing-and-storing-models.md) (or use a facilitator-provided `oci://` URI).
 
 - [ ] Copy the sample into `scratch/` and replace placeholders (`<namespace>`, `quay.io/...`, runtime name, resources).
 

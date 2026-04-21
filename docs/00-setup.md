@@ -36,11 +36,8 @@ git clone https://github.com/redhat-ai-americas/kserve-workshop.git
 cd kserve-workshop
 ```
 
-- [ ] Create a scratch directory for generated files.
+The repository includes a sample ONNX under **`extras/models/`** (MobileNet v2) for [Topic 2](/docs/02-preparing-and-storing-models.md); no external model download is required for class.
 
-```sh
-mkdir -p scratch
-```
 
 - [ ] Log in to the cluster.
 
@@ -48,7 +45,7 @@ mkdir -p scratch
 oc login <openshift_api_url> -u <username> -p <password>
 ```
 
-- [ ] Set your target **namespace** for labs (replace with your project name).
+- [ ] Set your target **namespace** for labs (replace with your project name. For example: kserve-workshop).
 
 ```sh
 oc project <your-data-science-project>
@@ -56,7 +53,7 @@ oc project <your-data-science-project>
 
 ## Optional: automated prerequisites (step 0)
 
-From the repository root, you can install the OpenShift **Web Terminal** operator and apply a console banner. This mirrors other RHOAI workshops and gives you `oc` in the browser.
+From the repository root, `./scripts/setup.sh -s 0` installs the **Web Terminal** operator (subscription + approve), applies a **console banner**, and Web Terminal **tooling** (devfile). Skip if **`workshop-setup`** (or similar) already installed Web Terminal.
 
 - [ ] Run:
 
@@ -65,25 +62,15 @@ From the repository root, you can install the OpenShift **Web Terminal** operato
 ```
 
 > [!NOTE]
-> After Web Terminal installs, refresh the OpenShift console if the terminal menu does not appear.
+> After Web Terminal first installs, refresh the OpenShift console if the terminal menu does not appear.
 
 For the remaining labs you may use your **local** shell or the **Web Terminal**.
 
 ## Verify KServe and model serving
 
-- [ ] Confirm KServe APIs are available:
-
-```sh
-oc api-resources | grep -E 'inferenceservice|servingruntime' || true
-```
-
-- [ ] List ServingRuntimes (names vary by cluster):
-
-```sh
-oc get servingruntime -A 2>/dev/null || oc get servingruntime
-```
-
-- [ ] In the OpenShift AI UI, open your project → **Deployments** (or **Models**) and confirm you can start the **Deploy model** flow. See [Red Hat documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform) for the exact menu names in your version.
+- [ ] Confirm KServe APIs exist: `oc api-resources | grep -E 'inferenceservice|servingruntime' || true`
+- [ ] Optional: `oc get servingruntime -A` — may be empty until runtimes are installed (see [Red Hat docs](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform)).
+- [ ] In the OpenShift AI UI, open your project and confirm you can start the **Deploy model** flow (labels vary by version).
 
 <p align="center">
 <a href="/README.md">Prev</a>

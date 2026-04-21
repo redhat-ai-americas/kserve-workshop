@@ -40,7 +40,3 @@ Participants should be able to:
 - Red Hat OpenShift AI Self-Managed 3.4 — *Deploying models*: [single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform)
 
 Use the product version that matches your cluster; procedures are consistent across recent 3.x releases, but UI labels and CRD details can differ slightly.
-
-## Facilitator check
-
-After cloning, run **`./scripts/verify-workshop-samples.sh`** to confirm the bundled ONNX is present and (if `podman` is installed) that the sample **Containerfile** builds.

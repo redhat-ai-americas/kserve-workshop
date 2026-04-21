@@ -20,7 +20,7 @@ Follow Red Hat documentation for architecture and procedures: [Deploying models 
 - [ ] A **Data Science project** (or equivalent) with a **storage connection** where needed (S3-compatible, OCI registry, or PVC).
 - [ ] For **OCI model images**: [Podman](https://podman.io/) (or Docker) on your laptop or bastion, and credentials to push to a registry (for example [Quay.io](https://quay.io/)).
 - [ ] For **GPU** exercises: GPU Operator and Node Feature Discovery configured; accelerators visible to workloads in your namespace.
-- [ ] A **sample model** for testing (small ONNX for OpenVINO, or a Hugging Face URI / OCI reference suitable for your runtime).
+- [ ] A **sample model** for testing (this repo includes **MobileNet ONNX** under `extras/models/`, or use another URI suitable for your runtime).
 - [ ] **`oc`** CLI installed and network access to the cluster API.
 - [ ] Comfort with YAML, basic container workflows, and HTTP inference concepts.
 

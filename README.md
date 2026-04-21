@@ -17,7 +17,7 @@ The repository layout follows the [hobbyist guide to RHOAI](https://github.com/r
 Participants should be able to:
 
 - Store the bundled **MobileNet v2 ONNX** in OCI images (model cars) or PVCs and understand trade-offs.
-- Use the OpenShift AI **Deploy model** wizard with automatic or manual runtime and hardware selection.
+- Use the OpenShift AI **Deploy model** platform with automatic or manual runtime and hardware selection.
 - Deploy `InferenceService` resources with YAML and `oc` for repeatable, advanced scenarios (private registries, custom arguments).
 - Choose deployment strategies (for example RollingUpdate versus Recreate), size CPU/memory/accelerators, and verify endpoints and monitoring signals.
 - Apply common troubleshooting steps for runtime mismatches, resource pressure, and image pull issues.
@@ -29,7 +29,7 @@ Participants should be able to:
 | [0 – Setup](/docs/00-setup.md) | Prerequisites, cluster access, KServe readiness, optional automation |
 | [1 – Overview & storage](/docs/01-overview-and-storage.md) | Single-model platform, storage options, related serving approaches |
 | [2 – Prepare & store models](/docs/02-preparing-and-storing-models.md) | **MobileNet ONNX** (bundled in-repo), PVC (default) or optional OCI / Quay / integrated registry |
-| [3 – Dashboard wizard](/docs/03-dashboard-wizard.md) | Deploy model flow, runtime selection, strategies |
+| [3 – Dashboard platform](/docs/03-dashboard-platform.md) | Deploy model flow, runtime selection, strategies |
 | [4 – YAML & CLI](/docs/04-yaml-and-cli.md) | `ServingRuntime`, `InferenceService`, private OCI |
 | [5 – Advanced config & monitoring](/docs/05-advanced-verification-monitoring.md) | Resources, accelerators, auth, metrics, inference checks |
 | [6 – Troubleshooting & practices](/docs/06-troubleshooting-best-practices.md) | Pitfalls, production tips, optional failure exercise |

@@ -1,4 +1,4 @@
-# 3. Deploying models via the dashboard wizard
+# 3. Deploying models via the dashboard platform
 
 <p align="center">
 <a href="/docs/02-preparing-and-storing-models.md">Prev</a>
@@ -13,14 +13,14 @@
 
 ### Rationale
 
-- The wizard is the fastest path for data scientists. Understanding each step maps directly to the YAML fields you will edit in [Topic 4](/docs/04-yaml-and-cli.md).
+- The platform is the fastest path for data scientists. Understanding each step maps directly to the YAML fields you will edit in [Topic 4](/docs/04-yaml-and-cli.md).
 
 ### Takeaways
 
 - **Auto runtime** matches hardware and model format when possible; use **manual** when multiple runtimes apply or when admins require a specific stack.
 - **RollingUpdate** favors availability when enough resources exist; **Recreate** can succeed on tighter quotas but causes brief downtime.
 
-## Wizard flow (check against current UI)
+## Platform flow (check against current UI)
 
 Follow the official doc section for labels in your release: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 

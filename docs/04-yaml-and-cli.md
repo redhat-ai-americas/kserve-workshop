@@ -1,7 +1,7 @@
 # 4. Deploying models via YAML and `oc` (advanced control)
 
 <p align="center">
-<a href="/docs/03-dashboard-wizard.md">Prev</a>
+<a href="/docs/03-dashboard-platform.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
 <a href="/docs/05-advanced-verification-monitoring.md">Next</a>
 </p>
@@ -97,7 +97,7 @@ oc secrets link default <pull-secret-name> --for=pull
 - [ ] (Optional) Add a deliberate mistake (wrong runtime name), observe failure, fix, re-apply.
 
 <p align="center">
-<a href="/docs/03-dashboard-wizard.md">Prev</a>
+<a href="/docs/03-dashboard-platform.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
 <a href="/docs/05-advanced-verification-monitoring.md">Next</a>
 </p>

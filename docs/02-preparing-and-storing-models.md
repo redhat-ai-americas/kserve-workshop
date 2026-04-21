@@ -3,23 +3,23 @@
 <p align="center">
 <a href="/docs/01-overview-and-storage.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
-<a href="/docs/03-dashboard-wizard.md">Next</a>
+<a href="/docs/03-dashboard-platform.md">Next</a>
 </p>
 
 ### Objectives
 
-- Use the **bundled MobileNet v2 ONNX** sample shipped in this repository (no Hugging Face or external download required for class).
+- Use the **bundled MobileNet v2 ONNX** sample shipped in this repository (no Hugging Face or external download required).
 - **Track B (default):** Place the model on a **PVC** via a workbench when registry access is limited.
 - **Track A (optional):** Package the same file into an **OCI** image with Podman and push to a registry you can use (**Quay**, or the **OpenShift integrated registry**).
 
 ### Rationale
 
-- Deployment wizards and `InferenceService` both expect a consistent **on-disk layout** and **model format** for the chosen runtime (for this lab: **ONNX** with an OpenVINO / OVMS-style `ServingRuntime` such as `kserve-ovms`—names vary by cluster).
+- The deployment platform and `InferenceService` both expect a consistent **on-disk layout** and **model format** for the chosen runtime (for this lab: **ONNX** with an OpenVINO).
 
 ### Takeaways
 
 - The workshop standardizes on **`extras/models/mobilenetv2-7.onnx`** so everyone has the same artifact after `git clone`.
-- OCI layouts use a **version** folder under `models/` (here: **`models/1/`**); adjust if your runtime documentation requires `models/<name>/1/`.
+- OCI layouts use a **version** folder under `models/` (here: **`models/1/`**).
 - PVC workflow: put files where the workbench and serving storage can see them (commonly under `/opt/app-root/src/` or a mounted PVC path).
 
 ## Sample model in this repository
@@ -34,26 +34,7 @@ See [`extras/models/README.md`](/extras/models/README.md) for license and proven
 
 ---
 
-## Track B — PVC / workbench (recommended default)
-
-Use this when participants **do not** have access to Quay or prefer not to build images.
-
-- [ ] Create or use a **workbench** in your Data Science project and ensure storage/PVC is available per your OpenShift AI version.
-- [ ] Copy the bundled model into the workbench project tree (upload via Jupyter **or** clone this repo inside the workbench and copy from `extras/models/`).
-- [ ] Note the **path** you will use in the **Deploy model** wizard or in YAML (PVC `storageUri` form depends on product version—follow [Red Hat documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform)).
-
-**From OpenShift Web Terminal** (with this repo cloned):
-
-```sh
-cp extras/models/mobilenetv2-7.onnx scratch/
-ls -la scratch/mobilenetv2-7.onnx
-```
-
-Upload `scratch/mobilenetv2-7.onnx` to the workbench if your serving deployment reads from a PVC path you populate that way.
-
----
-
-## Track A — OCI image with Podman (optional)
+## Track A — Build OCI image with Podman (optional; run locally)
 
 Use the **same** ONNX file to build a **model image** (model car). You need **Podman** (or Docker) and **permission to push** to at least one registry the cluster can pull from.
 
@@ -66,7 +47,7 @@ mkdir -p scratch/model-build/models/1
 cp extras/models/mobilenetv2-7.onnx scratch/model-build/models/1/
 
 podman build -f configs/samples/Containerfile.model-example \
-  -t mobilenet-onnx-workshop:local \
+  -t mobilenet-onnx-workshop:1 \
   scratch/model-build
 ```
 
@@ -74,48 +55,81 @@ podman build -f configs/samples/Containerfile.model-example \
 
 ### 2. Choose a registry and push
 
-**Option A — Your Quay.io repository (facilitator or participant)**  
-If the cluster can pull from `quay.io`:
-
 ```sh
-podman tag mobilenet-onnx-workshop:local quay.io/<org>/<repo>:<tag>
+podman tag mobilenet-onnx-workshop:1 quay.io/<org>/<repo>:<tag>
 podman login quay.io
 podman push quay.io/<org>/<repo>:<tag>
 ```
 
-Record **`oci://quay.io/<org>/<repo>:<tag>`** for the wizard or YAML.
+Record **`oci://quay.io/<org>/<repo>:<tag>`** for the platform flow or YAML.
 
-**Option B — OpenShift integrated registry**  
-OpenShift includes an image registry (often `image-registry.openshift-image-registry.svc:5000` inside the cluster). With rights to push to **your** namespace:
+**Option B — Facilitator-only image**  
+The instructor builds once and publishes to Quay; participants only **reference** `oci://quay.io/<org>/<repo>:<tag>` and skip `podman push`.
 
-```sh
-# Log in the CLI to the integrated registry (exact flags depend on OpenShift version).
-oc registry login
+---
 
-# Example tag (replace <project> with your Data Science namespace):
-REGISTRY=$(oc registry info --public=true 2>/dev/null || echo "image-registry.openshift-image-registry.svc:5000")
-# Some clusters use oc registry info; if unset, ask your admin for the registry host to use with podman login.
+## Track B — PVC / workbench (default)
 
-podman tag mobilenet-onnx-workshop:local "$REGISTRY/<project>/mobilenet-onnx-workshop:latest"
-podman push "$REGISTRY/<project>/mobilenet-onnx-workshop:latest"
-```
+This track follows Red Hat’s documented flow: **upload model files to the PVC attached to a workbench**, then deploy using **existing cluster storage**. For the upstream procedure, see *Deploying models* → **Uploading model files to a Persistent Volume Claim (PVC)** in [Red Hat OpenShift AI documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
-Use the **`oci://...`** form your cluster expects for pulls (add **pull secrets** on the service account if the registry is private). See OpenShift documentation: [Accessing the registry](https://docs.redhat.com/en/documentation/openshift_container_platform/4.15/html/registry/accessing-the-registry).
+### 1. Open your Data Science project
 
-**Option C — Facilitator-only image**  
-The instructor builds once and publishes to Quay; participants only **reference** `oci://quay.io/<instructor-org>/...` and skip `podman push`.
+1. Log in to the **OpenShift AI** dashboard.
+2. Go to **Data science projects** (or **Projects**).
+3. Open the **same project** you use for serving (the namespace you selected with `oc project` in [Topic 0](/docs/00-setup.md)).
+
+### 2. Create a workbench
+
+1. Open the **Workbenches** tab for that project (or **Workbenches** in the left navigation for the project).
+2. Click **Create workbench** (or **Add workbench** / **Create**).
+3. **Name:** e.g. `kserve-lab`.
+4. **Image:** choose `Jupyter | Minimal | CPU | Python 3.12`.
+5. Create the workbench and wait until its state is **Running**.
+
+More detail: [Creating a project workbench](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html/working_on_projects/using-project-workbenches_projects) (adjust the doc version to match your install).
+
+### 3. Open the workbench IDE
+
+1. When the workbench is running, click the name to open. Your browser opens **JupyterLab**
+
+### 4. Place `mobilenetv2-7.onnx` under `/opt/app-root/src/`
+
+Red Hat documents the project PVC mount as **`/opt/app-root/src/`** in the workbench—files there persist on the volume used when you select **existing cluster storage** during deploy.
+
+
+
+**Clone the repo inside the workbench terminal**
+
+1. Open a **terminal** in the workbench
+2. Run:
+
+   ```sh
+   cd /opt/app-root/src
+   git clone https://github.com/redhat-ai-americas/kserve-workshop.git
+   mkdir -p models
+   cp kserve-workshop/extras/models/mobilenetv2-7.onnx models/
+   ls -la models/mobilenetv2-7.onnx
+   ```
+
+### 5. Record PVC name and path for Topic 3
+
+For **Deploy model** (Topic 3), you will choose **existing cluster storage** / **PVC** and a **path to the model file** on that volume.
+
+- **PVC:** select the PVC name attached to this workbench. This can be found back in the OpenShift AI dashbaord under the Project's  **Cluster storage** tab. 
+- **Path:** relative to that volume’s root—e.g. **`models/mobilenetv2-7.onnx`** if you used the layout above.
+
+Write these down; Topic 3 uses them in the platform.
 
 ---
 
 ## Formats and runtime
 
-- **ONNX** — pair with an **OpenVINO / OVMS**-style `ServingRuntime` on your cluster (example name: `kserve-ovms`; **verify** with `oc get servingruntime -A`).
-- Install or enable runtimes per [deploying models](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform) if the list is empty.
+- **ONNX** — pair with an **OpenVINO** **`ServingRuntime`** on your cluster (example name: `kserve-ovms`; confirm with `oc get servingruntime -A`).
 
 ## Exercise (~25–35 min)
 
 - [ ] **Everyone:** Confirm `extras/models/mobilenetv2-7.onnx` is present after clone (`ls -la extras/models/`).
-- [ ] **Track B:** Model file is visible in the workbench or PVC path you will deploy from; record that path.
+- [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3.
 - [ ] **Track A (optional):** Image builds locally and pushes successfully; record **`oci://...`** for Topic 3–4.
 
 ### Verify locally (facilitators)
@@ -129,5 +143,5 @@ From the repo root:
 <p align="center">
 <a href="/docs/01-overview-and-storage.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
-<a href="/docs/03-dashboard-wizard.md">Next</a>
+<a href="/docs/03-dashboard-platform.md">Next</a>
 </p>

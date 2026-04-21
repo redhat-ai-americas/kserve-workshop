@@ -39,14 +39,13 @@ Each deployed model gets its own serving deployment. This pattern suits **large 
 
 ## Hands-on (facilitator demo, ~10 min)
 
-- [ ] In OpenShift AI: **Projects** → your project → **Deployments** → start **Deploy model** (wording may be **Serve model** or **Add model** depending on version).
+- [ ] In OpenShift AI: **Projects** → your project → **Deployments** → start **Deploy model** 
 - [ ] Walk through the first screen: model **location** and **type** (predictive vs generative) without submitting.
 - [ ] Discuss where each storage type appears and when OCI is preferable for **large** models.
 
 ## Exercise (participants, ~5 min)
 
-- [ ] Open the deploy wizard and identify: storage source fields, runtime selection (auto vs manual), and hardware profile (if shown).
-- [ ] Note one question for Q&A (for example GPU vs CPU runtime).
+- [ ] Open the deploy platform and identify: storage source fields, runtime selection (auto vs manual), and hardware profile (if shown).
 
 <p align="center">
 <a href="/docs/00-setup.md">Prev</a>

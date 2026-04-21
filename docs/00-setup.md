@@ -48,12 +48,12 @@ oc login <openshift_api_url> -u <username> -p <password>
 - [ ] Set your target **namespace** for labs (replace with your project name. For example: kserve-workshop).
 
 ```sh
-oc project <your-data-science-project>
+oc new-project <your-data-science-project>
 ```
 
 ## Optional: automated prerequisites (step 0)
 
-From the repository root, `./scripts/setup.sh -s 0` installs the **Web Terminal** operator (subscription + approve), applies a **console banner**, and Web Terminal **tooling** (devfile). Skip if **`workshop-setup`** (or similar) already installed Web Terminal.
+From the repository root, `./scripts/setup.sh -s 0` installs the **Web Terminal** operator (subscription + approve), applies a **console banner**, and Web Terminal **tooling** (devfile). 
 
 - [ ] Run:
 
@@ -65,6 +65,24 @@ From the repository root, `./scripts/setup.sh -s 0` installs the **Web Terminal*
 > After Web Terminal first installs, refresh the OpenShift console if the terminal menu does not appear.
 
 For the remaining labs you may use your **local** shell or the **Web Terminal**.
+
+### Cloning in the OpenShift Web Terminal
+
+**Yes, it works** the same way as on your laptop: `git clone …` and `cd kserve-workshop` give you all lab files (`docs/`, `extras/models/`, `configs/samples/`), **as long as** the cluster allows **outbound HTTPS** to your Git host (for example `github.com`). If git clone fails, use a **fork on an allowed host**, a **zip** you upload to a workbench, or clone from your **laptop** and copy files with `oc cp`.
+
+### How to read the modules (Markdown) in a terminal
+
+The lessons are plain **`.md` files** under `docs/`. The Web Terminal does not render GitHub-style navigation; use any of these:
+
+| Approach | How |
+|--------|-----|
+| **Pager** | `less docs/01-overview-and-storage.md` (quit with `q`) |
+| **Print** | `cat docs/00-setup.md` |
+| **Editor** | `vi docs/02-preparing-and-storing-models.md` if you prefer |
+| **Browser** | Open the same repo on **GitHub** (or your fork) and read online while using the terminal for commands |
+| **Workbench** | If you also cloned into **JupyterLab / code-server**, open the `.md` file in the IDE for nicer formatting |
+
+Links like `/docs/…` in the files are meant for **GitHub**; in the shell, paths are relative to the repo root, e.g. `docs/01-overview-and-storage.md`.
 
 ## Verify KServe and model serving
 

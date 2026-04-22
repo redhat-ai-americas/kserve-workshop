@@ -24,6 +24,15 @@ spec:
     - --port=8080
     - --model=/mnt/models
     - --served-model-name=granite-3-1-8b-instruct
+    # Topic 6 tuning (each list entry is one argv token). Adjust or remove per cluster memory / latency goals.
+    - --max-model-len
+    - "8192"
+    - --gpu-memory-utilization
+    - "0.90"
+    - --dtype
+    - auto
+    - --max-num-seqs
+    - "256"
     command:
     - python
     - -m

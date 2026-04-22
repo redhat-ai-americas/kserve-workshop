@@ -22,7 +22,7 @@ Participants should be able to:
 - Use the OpenShift AI **Deploy model** platform with automatic or manual runtime and hardware selection.
 - Deploy `InferenceService` resources with YAML and `oc` for repeatable, advanced scenarios (private registries, custom arguments).
 - Call a **generative** model over HTTPS with a **Bearer token** from a workbench using the bundled notebook.
-- Tune **vLLM** arguments in the UI, verify readiness, and skim **metrics** for a deployment.
+- Tune **vLLM** arguments in **`ServingRuntime`** YAML, verify readiness, and skim **metrics** for a deployment.
 - Apply common troubleshooting steps for runtime mismatches, resource pressure, and image pull issues.
 
 ## Lab sequence
@@ -35,7 +35,7 @@ Participants should be able to:
 | [3 – Dashboard platform](/docs/03-dashboard-platform.md) | Deploy model flow, runtime selection, strategies |
 | [4 – YAML & CLI](/docs/04-yaml-and-cli.md) | `ServingRuntime`, `InferenceService`, private OCI |
 | [5 – Generative inference](/docs/05-generative-inference-workbench.md) | Route + SA token secret, notebook on a workbench |
-| [6 – vLLM tuning & monitoring](/docs/06-advanced-verification-monitoring.md) | Standard **vLLM** args in the GUI, verification, metrics |
+| [6 – vLLM tuning & monitoring](/docs/06-advanced-verification-monitoring.md) | **ServingRuntime** YAML args, **`oc apply`**, verification, metrics |
 | [7 – Troubleshooting & practices](/docs/07-troubleshooting-best-practices.md) | Pitfalls, production tips, optional failure exercise |
 
 ## Primary documentation

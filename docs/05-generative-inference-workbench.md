@@ -21,7 +21,7 @@
 
 - With **token authentication** enabled on the deployment, every API call needs **`Authorization: Bearer <token>`**.  
 - The token for **`granite-3-1-8b-instruct-sa`** is stored in a **Secret** of the same name (created in [Topic 4](/docs/04-yaml-and-cli.md) when you applied `model-sa-token.yaml`).  
-- The bundled notebook keeps **URL**, **token**, and **`MODEL_NAME`** (OpenAI **`model`** field) in one place—**`MODEL_NAME`** must match an **`id`** from **`GET /v1/models`** or vLLM returns **model not found**.
+- The bundled notebook keeps **URL**, **token**, and **`MODEL_NAME`** (OpenAI **`model`** field) in one place—**`MODEL_NAME`** must match an **`id`** from **`GET /v1/models`**. The chat cell **parses** the response and prints **`choices[0].message.content`** as the assistant sentence.
 
 ## Prerequisites
 
@@ -69,7 +69,7 @@ echo
 
 - [ ] In the workbench (**JupyterLab**), open a terminal and clone this repo `https://github.com/redhat-ai-americas/kserve-workshop.git`
 - [ ] In the file browser, open **`kserve-workshop/extras/notebooks/generative-inference.ipynb`** ([`generative-inference.ipynb`](/extras/notebooks/generative-inference.ipynb) in the repo).  
-- [ ] Edit the first code cell: set **`INFERENCE_BASE_URL`**, **`BEARER_TOKEN`**, and **`MODEL_NAME`**. The **`model`** field in OpenAI-style requests must match an **`id`** returned by **`GET /v1/models`** (defaults to **`granite-3-1-8b-instruct`** to match **`--served-model-name`** in the workshop `ServingRuntime`). Run the **`/v1/models`** cell first; if **`/v1/chat/completions`** returns **model not found**, paste the printed **`id`** into **`MODEL_NAME`**.  
+- [ ] Edit the first code cell: set **`INFERENCE_BASE_URL`**, **`BEARER_TOKEN`**, and **`MODEL_NAME`**. The **`model`** field must match an **`id`** from **`GET /v1/models`** (the notebook defaults to **`granite-3.1-8b-instruct`** with **dots**, which often matches the Granite model car; it can differ from Kubernetes **`granite-3-1-8b-instruct`** resource names). Run the **`/v1/models`** cell first; copy the printed **`id`** if chat fails. The last cell **prints the assistant sentence** from JSON— you do not need to read the raw blob.  
 - [ ] Run all cells: confirm **`/v1/models`** returns **200**, then **`/v1/chat/completions`** succeeds.
 
 > **TLS:** If the cluster uses a private CA, the notebook uses `verify=False` for a quick lab; in production, pass a proper CA bundle or use the cluster trust store.

@@ -15,6 +15,7 @@
 ### Rationale
 
 - Data scientists usually validate models from a **notebook** or script, not only from `curl` on a laptop. The same **route** and **token** flow you use here is what automation and client apps repeat.
+- A **separate** workbench (its own PVC) avoids **ReadWriteOnce** conflicts with [Topic 2](/docs/02-preparing-and-storing-models.md) **Track B**, where the model may be served from the **first** workbench’s volume while that workbench stays stopped.
 
 ### Takeaways
 
@@ -25,7 +26,7 @@
 ## Prerequisites
 
 - [ ] **`kserve-workshop`** project with the **Granite** stack from Topic 4 (**`InferenceService` `granite-3-1-8b-instruct`**) **Ready**, with **external route** and **token authentication** enabled (as in the sample manifests).  
-- [ ] A **workbench** running in **`kserve-workshop`** (create one under **Workbenches** if you do not already have it from [Topic 2](/docs/02-preparing-and-storing-models.md)).
+- [ ] A **new workbench** in **`kserve-workshop`** used only for this topic (for example name **`inference-lab`**), with **its own** cluster storage. Do **not** reuse the Topic 2 **Track B** workbench if that PVC is still tied to a running **PVC-based** model deployment—RWO allows only one consumer. Starting a **second** workbench keeps Jupyter running while the model serves from the other volume (or from OCI).
 
 ## 1. Copy the inference route
 
@@ -41,8 +42,6 @@ Use the **service account token** secret the workshop applied for client access.
 3. Go to **Workloads** → **Secrets**.  
 4. Open the secret named **`granite-3-1-8b-instruct-sa`** (type **kubernetes.io/service-account-token**).  
 5. Under **Data**, reveal the **`token`** field and copy its value (the UI usually shows the decoded string).  
-
-If the secret is missing, re-apply [Topic 4](/docs/04-yaml-and-cli.md) `model-sa-token.yaml` or ask a facilitator.
 
 **Optional — CLI:**
 
@@ -62,6 +61,7 @@ echo
 
 ## Hands-on (~20–30 min)
 
+- [ ] Create or open the **Topic 5** workbench (**separate** from Track B model storage when applicable).  
 - [ ] Retrieve the token from **Secrets** → **`granite-3-1-8b-instruct-sa`** → **token**.  
 - [ ] Run **`generative-inference.ipynb`** end-to-end with a successful chat completion.  
 - [ ] Change the user message in the last cell and confirm the model reply updates.

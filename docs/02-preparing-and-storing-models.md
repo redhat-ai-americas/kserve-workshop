@@ -129,8 +129,8 @@ Write these down; Topic 3 uses them in the platform.
 ## Exercise (~25–35 min)
 
 - [ ] **Everyone:** Confirm `extras/models/mobilenetv2-7.onnx` is present after clone (`ls -la extras/models/`).
-- [ ] **Track A (optional):** Image builds locally and pushes successfully; record **`oci://...`** for Topic 3–4.
 - [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3.
+- [ ] **Track A (optional):** Image builds locally and pushes successfully; record **`oci://...`** for Topic 3–4.
 
 ### Verify locally (facilitators)
 

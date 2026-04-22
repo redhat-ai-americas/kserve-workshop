@@ -111,6 +111,10 @@ Red Hat documents the project PVC mount as **`/opt/app-root/src/`** in the workb
    ls -la models/mobilenetv2-7.onnx
    ```
 
+**Stop the workbench after copying (before Topic 3 deploy)**
+
+The workbench PVC is usually **ReadWriteOnce**: only one pod can mount it at a time. After your model file is on the volume, **stop the workbench** from the OpenShift AI project (**Workbenches** → stop this workbench—not only closing the Jupyter browser tab). That releases the PVC so **Deploy model** in Topic 3 can use the same storage.
+
 ### 5. Record PVC name and path for Topic 3
 
 For **Deploy model** (Topic 3), you will choose **existing cluster storage** / **PVC** and a **path to the model file** on that volume.
@@ -129,7 +133,7 @@ Write these down; Topic 3 uses them in the platform.
 ## Exercise (~25–35 min)
 
 - [ ] **Everyone:** Confirm `extras/models/mobilenetv2-7.onnx` is present after clone (`ls -la extras/models/`).
-- [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3.
+- [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3; **workbench stopped** before Topic 3 deploy (same PVC).
 - [ ] **Track A (optional):** Image builds locally and pushes successfully; record **`oci://...`** for Topic 3–4.
 
 ### Verify locally (facilitators)

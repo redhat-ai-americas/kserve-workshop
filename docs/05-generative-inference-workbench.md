@@ -21,7 +21,7 @@
 
 - With **token authentication** enabled on the deployment, every API call needs **`Authorization: Bearer <token>`**.  
 - The token for **`granite-3-1-8b-instruct-sa`** is stored in a **Secret** of the same name (created in [Topic 4](/docs/04-yaml-and-cli.md) when you applied `model-sa-token.yaml`).  
-- The bundled notebook keeps **URL** and **token** in one place so you can iterate on prompts without retyping headers.
+- The bundled notebook keeps **URL**, **token**, and **`MODEL_NAME`** (OpenAI **`model`** field) in one place—**`MODEL_NAME`** must match an **`id`** from **`GET /v1/models`** or vLLM returns **model not found**.
 
 ## Prerequisites
 
@@ -36,8 +36,8 @@ Use a **new** workbench only for this topic’s notebook (HTTP client to the mod
 2. Open the **Workbenches** tab.  
 3. Click **Create workbench** (or **Add workbench** / **Create**).  
 4. **Name:** e.g. **`inference-lab`**.  
-5. **Image:** choose the **minimal** Python / Jupyter image—**`Jupyter | Minimal | CPU | Python 3.12`** or the closest **Minimal** CPU + Python option your cluster lists (same family as [Topic 2](/docs/02-preparing-and-storing-models.md)).  
-6. **Hardware profile:** select the **default** small CPU profile (for example **Default** / **default** / **CPU only**—labels vary by install). This workbench does not need GPUs; only the **Granite** deployment does.  
+5. **Image:** choose the **minimal** Python / Jupyter image—**`Jupyter | Minimal | CPU | Python 3.12`** or 
+6. **Hardware profile:** select  **default-profile**. This workbench does not need GPUs, only the **Granite** deployment does.  
 7. Leave **cluster storage** at the default size unless your admin specifies otherwise, then **Create** and wait until the workbench is **Running**.  
 8. Open the workbench to launch **JupyterLab**.
 
@@ -67,10 +67,10 @@ echo
 
 ## 4. Open the workshop notebook in the workbench
 
-- [ ] In the workbench (**JupyterLab**), open a terminal and clone or update this repo under **`/opt/app-root/src/`** if you do not already have it (same pattern as [Topic 2](/docs/02-preparing-and-storing-models.md)).  
-- [ ] In the file browser, open **`extras/notebooks/generative-inference.ipynb`** ([`generative-inference.ipynb`](/extras/notebooks/generative-inference.ipynb) in the repo).  
-- [ ] Edit the first code cell: set **`INFERENCE_BASE_URL`** to your route (scheme + host + any path prefix the UI shows) and **`BEARER_TOKEN`** to the token from **§3**.  
-- [ ] Run all cells: confirm **`/v1/models`** returns **200**, then try **`/v1/chat/completions`** with the sample body.
+- [ ] In the workbench (**JupyterLab**), open a terminal and clone this repo `https://github.com/redhat-ai-americas/kserve-workshop.git`
+- [ ] In the file browser, open **`kserve-workshop/extras/notebooks/generative-inference.ipynb`** ([`generative-inference.ipynb`](/extras/notebooks/generative-inference.ipynb) in the repo).  
+- [ ] Edit the first code cell: set **`INFERENCE_BASE_URL`**, **`BEARER_TOKEN`**, and **`MODEL_NAME`**. The **`model`** field in OpenAI-style requests must match an **`id`** returned by **`GET /v1/models`** (defaults to **`granite-3-1-8b-instruct`** to match **`--served-model-name`** in the workshop `ServingRuntime`). Run the **`/v1/models`** cell first; if **`/v1/chat/completions`** returns **model not found**, paste the printed **`id`** into **`MODEL_NAME`**.  
+- [ ] Run all cells: confirm **`/v1/models`** returns **200**, then **`/v1/chat/completions`** succeeds.
 
 > **TLS:** If the cluster uses a private CA, the notebook uses `verify=False` for a quick lab; in production, pass a proper CA bundle or use the cluster trust store.
 

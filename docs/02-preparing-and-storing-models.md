@@ -88,15 +88,11 @@ This track follows Red Hat’s documented flow: **upload model files to the PVC 
 
 More detail: [Creating a project workbench](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html/working_on_projects/using-project-workbenches_projects) (adjust the doc version to match your install).
 
-### 3. Open the workbench IDE
+### 3. Open the workbench
 
 1. When the workbench is running, click the name to open. Your browser opens **JupyterLab**
 
 ### 4. Place `mobilenetv2-7.onnx` under `/opt/app-root/src/`
-
-Red Hat documents the project PVC mount as **`/opt/app-root/src/`** in the workbench—files there persist on the volume used when you select **existing cluster storage** during deploy.
-
-
 
 **Clone the repo inside the workbench terminal**
 
@@ -113,7 +109,7 @@ Red Hat documents the project PVC mount as **`/opt/app-root/src/`** in the workb
 
 **Stop the workbench after copying (before Topic 3 deploy)**
 
-The workbench PVC is usually **ReadWriteOnce**: only one pod can mount it at a time. After your model file is on the volume, **stop the workbench** from the OpenShift AI project (**Workbenches** → stop this workbench—not only closing the Jupyter browser tab). That releases the PVC so **Deploy model** in Topic 3 can use the same storage.
+The workbench PVC is usually **ReadWriteOnce**: only one pod can mount it at a time. After your model file is on the volume, **stop the workbench** from the OpenShift AI project (**Workbenches** → stop). That releases the PVC so **Deploy model** in Topic 3 can use the same storage.
 
 ### 5. Record PVC name and path for Topic 3
 
@@ -133,8 +129,8 @@ Write these down; Topic 3 uses them in the platform.
 ## Exercise (~25–35 min)
 
 - [ ] **Everyone:** Confirm `extras/models/mobilenetv2-7.onnx` is present after clone (`ls -la extras/models/`).
+- [ ] **Track A:** Image builds locally and pushes successfully; record **`oci://...`** for Topic 3–4.
 - [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3; **workbench stopped** before Topic 3 deploy (same PVC).
-- [ ] **Track A (optional):** Image builds locally and pushes successfully; record **`oci://...`** for Topic 3–4.
 
 ### Verify locally (facilitators)
 

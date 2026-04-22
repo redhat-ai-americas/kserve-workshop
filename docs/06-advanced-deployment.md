@@ -46,6 +46,7 @@ Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/config
    ```sh
    oc apply -f configs/samples/model-deploy/vllm-servingruntime.yaml
    # or: oc apply -f scratch/vllm-servingruntime.yaml
+   oc rollout restart deployment/granite-3-1-8b-instruct-predictor
    ```
 
 4. **Wait** for the model deployment to pick up the revision (new **predictor** pod may roll). Watch:
@@ -55,26 +56,14 @@ Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/config
    oc get events -n kserve-workshop --sort-by=.lastTimestamp | tail -20
    ```
 
-   If nothing rolls automatically, your operator version may require an **`InferenceService`** nudge (for example delete the predictor **Pod** once so it recreates) — follow your cluster’s guidance; avoid deleting the `InferenceService` unless you intend to.
-
 - [ ] **`oc apply`** succeeds and pods become **Ready** without crash loops.
 
 ## Verification
 
 - [ ] **Dashboard** — Deployment **Ready**; inference **URL** unchanged unless the route was recreated.  
-- [ ] **CLI** — `oc get inferenceservice granite-3-1-8b-instruct -n kserve-workshop` and `oc describe inferenceservice granite-3-1-8b-instruct -n kserve-workshop` for **conditions** and **events**.  
+- [ ] **CLI** — `oc get inferenceservice granite-3-1-8b-instruct -n kserve-workshop` and `oc describe inferenceservice granite-3-1-8b-instruct -n kserve-workshop` for **conditions** and **events**. Inspect the new args in the servingruntime `oc describe servingruntime granite-3-1-8b-instruct`
 - [ ] **Inference** — Repeat a quick call from [Topic 5](/docs/05-generative-inference-workbench.md) (notebook or **`/v1/models`** / **`/v1/chat/completions`**) with the same **Bearer** token.
 
-## Monitoring
-
-- [ ] OpenShift AI **dashboard** metrics for the deployment: request rate, latency, utilization (widgets depend on version).  
-- [ ] **OpenShift console** → **Observe** — If **User Workload Monitoring** is enabled, explore metrics for the predictor **Pods** and **Routes**.
-
-## Hands-on (~15–25 min)
-
-- [ ] Change at least one **vLLM** argument in **`vllm-servingruntime.yaml`** (for example lower **`--max-model-len`**), **`oc apply`**, and confirm the pod restarts cleanly.  
-- [ ] Run one **smoke inference** and note latency versus before (informal comparison is enough).  
-- [ ] Open one **metrics** view and name one signal you would alert on in production.
 
 <p align="center">
 <a href="/docs/05-generative-inference-workbench.md">Prev</a>

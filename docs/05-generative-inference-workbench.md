@@ -60,38 +60,17 @@ Use the **service account token** secret the workshop applied for client access.
 
 **Optional — CLI**
 
-The console shows the **decoded** JWT. Under the hood the Secret stores **`token`** as **base64**; decoding in the shell is easy to get subtly wrong (wrong token in `curl`/notebook while the GUI looks fine).
-
-Prefer **`oc extract`**—it writes the **decoded** key to stdout and avoids many `jsonpath | base64` footguns:
-
 ```sh
 oc extract secret/granite-3-1-8b-instruct-sa -n kserve-workshop --keys=token --to=-
-```
-
-Copy the output **with no extra newline** before the next shell prompt (or pipe through **`tr -d '\n'`** if you assign to a variable):
-
-```sh
-TOKEN=$(oc get secret granite-3-1-8b-instruct-sa -n kserve-workshop -o jsonpath='{.data.token}' | base64 -d | tr -d '\n')
-echo "length=${#TOKEN}"
-```
-
-If **`length`** is tiny or auth still fails, compare to the GUI token length; a trailing **`echo`** after **`base64 -d`** often pastes a **newline** into `Bearer`, which breaks validation even though the bytes look almost right.
 
 ## 4. Open the workshop notebook in the workbench
 
 - [ ] In the workbench (**JupyterLab**), open a terminal and clone this repo `https://github.com/redhat-ai-americas/kserve-workshop.git`
 - [ ] In the file browser, open **`kserve-workshop/extras/notebooks/generative-inference.ipynb`** ([`generative-inference.ipynb`](/extras/notebooks/generative-inference.ipynb) in the repo).  
-- [ ] Edit the first code cell: set **`INFERENCE_BASE_URL`**, **`BEARER_TOKEN`**, and **`MODEL_NAME`**. The **`model`** field must match an **`id`** from **`GET /v1/models`** (the notebook defaults to **`granite-3.1-8b-instruct`** with **dots**, which often matches the Granite model car; it can differ from Kubernetes **`granite-3-1-8b-instruct`** resource names). Run the **`/v1/models`** cell first; copy the printed **`id`** if chat fails. The last cell **prints the assistant sentence** from JSON— you do not need to read the raw blob.  
+- [ ] Edit the first code cell: set **`INFERENCE_BASE_URL`**, **`BEARER_TOKEN`**, and **`MODEL_NAME`**. The **`model`** field must match an **`id`** from **`GET /v1/models`** (the notebook defaults to **`granite-3.1-8b-instruct`**
+
 - [ ] Run all cells: confirm **`/v1/models`** returns **200**, then **`/v1/chat/completions`** succeeds.
 
-> **TLS:** If the cluster uses a private CA, the notebook uses `verify=False` for a quick lab; in production, pass a proper CA bundle or use the cluster trust store.
-
-## Hands-on (~20–30 min)
-
-- [ ] Complete **§1** (minimal Python image, **default** hardware profile, **Running**).  
-- [ ] Copy the inference **URL** from **§2** and the **Bearer token** from **§3**.  
-- [ ] Run **`generative-inference.ipynb`** end-to-end with a successful chat completion.  
-- [ ] Change the user message in the last cell and confirm the model reply updates.
 
 <p align="center">
 <a href="/docs/04-yaml-and-cli.md">Prev</a>

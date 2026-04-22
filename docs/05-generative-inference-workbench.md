@@ -10,7 +10,7 @@
 
 - Call the **OpenAI-compatible** HTTP API exposed by the **vLLM** deployment (for example **Granite** from [Topic 4](/docs/04-yaml-and-cli.md)).
 - Retrieve a **Bearer token** from the workshop **service account** secret in the OpenShift console.
-- Run the pre-built notebook **`extras/notebooks/generative-inference.ipynb`** in an OpenShift AI **workbench**.
+- Create a **dedicated** OpenShift AI **workbench** (minimal Python image, default hardware profile) and run **`extras/notebooks/generative-inference.ipynb`** there.
 
 ### Rationale
 
@@ -26,14 +26,29 @@
 ## Prerequisites
 
 - [ ] **`kserve-workshop`** project with the **Granite** stack from Topic 4 (**`InferenceService` `granite-3-1-8b-instruct`**) **Ready**, with **external route** and **token authentication** enabled (as in the sample manifests).  
-- [ ] A **new workbench** in **`kserve-workshop`** used only for this topic (for example name **`inference-lab`**), with **its own** cluster storage. Do **not** reuse the Topic 2 **Track B** workbench if that PVC is still tied to a running **PVC-based** model deployment—RWO allows only one consumer. Starting a **second** workbench keeps Jupyter running while the model serves from the other volume (or from OCI).
+- [ ] A **separate** workbench from [Topic 2](/docs/02-preparing-and-storing-models.md) **Track B** when that PVC is used for serving—create it in **§1** below (its own storage; avoids RWO conflicts).
 
-## 1. Copy the inference route
+## 1. Create the inference workbench
+
+Use a **new** workbench only for this topic’s notebook (HTTP client to the model route). Do **not** reuse the Topic 2 **Track B** workbench if that volume is still attached to a **PVC-based** deployment.
+
+1. In **OpenShift AI**, open project **`kserve-workshop`**.  
+2. Open the **Workbenches** tab.  
+3. Click **Create workbench** (or **Add workbench** / **Create**).  
+4. **Name:** e.g. **`inference-lab`**.  
+5. **Image:** choose the **minimal** Python / Jupyter image—**`Jupyter | Minimal | CPU | Python 3.12`** or the closest **Minimal** CPU + Python option your cluster lists (same family as [Topic 2](/docs/02-preparing-and-storing-models.md)).  
+6. **Hardware profile:** select the **default** small CPU profile (for example **Default** / **default** / **CPU only**—labels vary by install). This workbench does not need GPUs; only the **Granite** deployment does.  
+7. Leave **cluster storage** at the default size unless your admin specifies otherwise, then **Create** and wait until the workbench is **Running**.  
+8. Open the workbench to launch **JupyterLab**.
+
+More detail: [Creating a project workbench](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html/working_on_projects/using-project-workbenches_projects) (match the doc version to your OpenShift AI release).
+
+## 2. Copy the inference route
 
 - [ ] In **OpenShift AI** → **`kserve-workshop`** → **Deployments** (or **Models** / **Model deployments**, depending on version), open **`granite-3-1-8b-instruct`** and copy the **inference URL** / **API URL** (HTTPS).  
 - [ ] Or from the terminal: `oc get inferenceservice granite-3-1-8b-instruct -n kserve-workshop -o wide` and use the **URL** shown in status (no trailing slash when you pass it to the notebook).
 
-## 2. Get the Bearer token (OpenShift console)
+## 3. Get the Bearer token (OpenShift console)
 
 Use the **service account token** secret the workshop applied for client access.
 
@@ -50,19 +65,19 @@ oc get secret granite-3-1-8b-instruct-sa -n kserve-workshop -o jsonpath='{.data.
 echo
 ```
 
-## 3. Open the workshop notebook in the workbench
+## 4. Open the workshop notebook in the workbench
 
 - [ ] In the workbench (**JupyterLab**), open a terminal and clone or update this repo under **`/opt/app-root/src/`** if you do not already have it (same pattern as [Topic 2](/docs/02-preparing-and-storing-models.md)).  
 - [ ] In the file browser, open **`extras/notebooks/generative-inference.ipynb`** ([`generative-inference.ipynb`](/extras/notebooks/generative-inference.ipynb) in the repo).  
-- [ ] Edit the first code cell: set **`INFERENCE_BASE_URL`** to your route (scheme + host + any path prefix the UI shows) and **`BEARER_TOKEN`** to the token from step 2.  
+- [ ] Edit the first code cell: set **`INFERENCE_BASE_URL`** to your route (scheme + host + any path prefix the UI shows) and **`BEARER_TOKEN`** to the token from **§3**.  
 - [ ] Run all cells: confirm **`/v1/models`** returns **200**, then try **`/v1/chat/completions`** with the sample body.
 
 > **TLS:** If the cluster uses a private CA, the notebook uses `verify=False` for a quick lab; in production, pass a proper CA bundle or use the cluster trust store.
 
 ## Hands-on (~20–30 min)
 
-- [ ] Create or open the **Topic 5** workbench (**separate** from Track B model storage when applicable).  
-- [ ] Retrieve the token from **Secrets** → **`granite-3-1-8b-instruct-sa`** → **token**.  
+- [ ] Complete **§1** (minimal Python image, **default** hardware profile, **Running**).  
+- [ ] Copy the inference **URL** from **§2** and the **Bearer token** from **§3**.  
 - [ ] Run **`generative-inference.ipynb`** end-to-end with a successful chat completion.  
 - [ ] Change the user message in the last cell and confirm the model reply updates.
 

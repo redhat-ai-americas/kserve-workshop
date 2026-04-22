@@ -1,0 +1,36 @@
+# Granite vLLM InferenceService (RawDeployment). Apply after `vllm-servingruntime.yaml`.
+# Requires GPU-capable nodes and pull access to `registry.redhat.io`.
+# Edit `metadata.namespace` (and optional `opendatahub.io/connections` for private OCI) if needed.
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  annotations:
+    opendatahub.io/hardware-profile-name: nvidia-gpu
+    opendatahub.io/hardware-profile-namespace: redhat-ods-applications
+    opendatahub.io/model-type: generative
+    openshift.io/description: ""
+    openshift.io/display-name: granite-3.1-8b-instruct
+    security.opendatahub.io/enable-auth: "true"
+    serving.kserve.io/deploymentMode: RawDeployment
+  finalizers:
+  - inferenceservice.finalizers
+  - odh.inferenceservice.finalizers
+  labels:
+    networking.kserve.io/visibility: exposed
+    opendatahub.io/dashboard: "true"
+  name: granite-3.1-8b-instruct
+  namespace: kserve-workshop
+spec:
+  predictor:
+    automountServiceAccountToken: false
+    deploymentStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+    model:
+      modelFormat:
+        name: vLLM
+      name: ""
+      runtime: granite-3.1-8b-instruct
+      storageUri: oci://registry.redhat.io/rhelai1/modelcar-granite-3-1-8b-starter-v2:1.5

@@ -15,21 +15,28 @@
 
 - Dashboard deployments are convenient; YAML is how you integrate **private images**, **custom args**, and **CI/CD**.
 
-### Takeaways
+## Full sample stack for oc apply -f
 
-- `spec.predictor.model.runtime` must match an existing `ServingRuntime` name.  
-- Private images need **`imagePullSecrets`** on the service account used by the predictor (see product docs for your version).
+Files live under **`configs/samples/model-deploy/`**. They are plain Kubernetes YAML (no Helm, no Argo CD). They deploy a **GPU vLLM** stack with a **Red Hat Granite** model image (`registry.redhat.io`). **Edit every `namespace: kserve-workshop` field** (and names if you change them) to match your Data Science project before applying.
 
-## ServingRuntime
-
-Clusters often ship or pre-apply runtimes (for example OpenVINO). List what you can use:
+Apply **in this order** so the `ServingRuntime` exists before the `InferenceService` references it:
 
 ```sh
-oc get servingruntime -n <namespace>
-oc get servingruntime -A   # if cluster-scoped listing is allowed
+oc apply -f configs/samples/model-deploy/vllm-servingruntime.yaml
+oc apply -f configs/samples/model-deploy/model-sa-token.yaml
+oc apply -f configs/samples/model-deploy/inferenceservice.yaml
 ```
 
-Install or update runtimes according to [Red Hat documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform); your admin may use `oc process` on packaged templates where provided.
+Use the **ordered** commands above on first deploy; applying the whole directory at once can process files in an order where the `InferenceService` is created before the `ServingRuntime` exists.
+
+- [ ] Confirm your project has a **hardware profile** and **GPU** capacity matching the annotations (see `inferenceservice.yaml`).  
+- [ ] For **private** `registry.redhat.io` pulls, use cluster pull secrets or add `opendatahub.io/connections` on the `InferenceService` per [Private OCI registry](#private-oci-registry) and Red Hat docs.  
+- [ ] `model-sa-token.yaml` is optional client RBAC; skip it if you only need the deployed endpoint.
+
+```sh
+oc get servingruntime -n <your-project>
+oc get inferenceservice -n <your-project>
+```
 
 ## InferenceService example (public OCI)
 
@@ -92,7 +99,7 @@ oc secrets link default <pull-secret-name> --for=pull
 
 ## Hands-on exercise (~20–30 min)
 
-- [ ] Deploy your sample using YAML.  
+- [ ] Deploy using YAML: either the **MobileNet** scratch file from [InferenceService example (public OCI)](#inferenceservice-example-public-oci) **or** the ordered **`oc apply -f`** steps in [Full sample stack for oc apply -f](#full-sample-stack-for-oc-apply--f) (GPU / Granite—only if your cluster supports it).  
 - [ ] Confirm **READY** condition and capture the **URL** from status.  
 - [ ] (Optional) Add a deliberate mistake (wrong runtime name), observe failure, fix, re-apply.
 

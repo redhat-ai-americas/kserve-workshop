@@ -1,0 +1,50 @@
+# ServiceAccount, token Secret, and RBAC so a client can read this InferenceService (optional).
+# Names match `inferenceservice.yaml`. Edit `namespace` fields if needed.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: granite-3.1-8b-instruct-sa
+  namespace: kserve-workshop
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: granite-3.1-8b-instruct-sa
+  namespace: kserve-workshop
+  annotations:
+    kubernetes.io/service-account.name: granite-3.1-8b-instruct-sa
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: granite-3.1-8b-instruct-sa-role
+  namespace: kserve-workshop
+  labels:
+    opendatahub.io/dashboard: "true"
+rules:
+  - apiGroups:
+      - serving.kserve.io
+    resources:
+      - inferenceservices
+    resourceNames:
+      - granite-3.1-8b-instruct
+    verbs:
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: granite-3.1-8b-instruct-sa-rolebinding
+  namespace: kserve-workshop
+  labels:
+    opendatahub.io/dashboard: "true"
+subjects:
+  - kind: ServiceAccount
+    name: granite-3.1-8b-instruct-sa
+    namespace: kserve-workshop
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: granite-3.1-8b-instruct-sa-role

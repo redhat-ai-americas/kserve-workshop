@@ -111,6 +111,8 @@ More detail: [Creating a project workbench](https://docs.redhat.com/en/documenta
 
 The workbench PVC is usually **ReadWriteOnce**: only one pod can mount it at a time. After your model file is on the volume, **stop the workbench** from **`kserve-workshop`** (**Workbenches** → stop). That releases the PVC so **Deploy model** in Topic 3 can use the same storage.
 
+**Reusing this workbench later:** If Topic 3 serves the model from **that same PVC**, the **serving pod** holds the volume while it runs—you **cannot** start this workbench again at the same time (same RWO rule). To use a workbench again for notebooks or files, either **scale down / delete** the model deployment that mounts this PVC, **create a second workbench** (separate PVC) for lab-only work, or use **Track A (OCI)** for serving so the workbench PVC is not shared with inference.
+
 ### 5. Record PVC name and path for Topic 3
 
 For **Deploy model** (Topic 3), you will choose **existing cluster storage** / **PVC** and a **path to the model file** on that volume.

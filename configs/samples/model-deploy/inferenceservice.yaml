@@ -9,7 +9,7 @@ metadata:
     opendatahub.io/hardware-profile-namespace: redhat-ods-applications
     opendatahub.io/model-type: generative
     openshift.io/description: ""
-    openshift.io/display-name: granite-3.1-8b-instruct
+    openshift.io/display-name: granite-3-1-8b-instruct
     security.opendatahub.io/enable-auth: "true"
     serving.kserve.io/deploymentMode: RawDeployment
   finalizers:
@@ -18,7 +18,7 @@ metadata:
   labels:
     networking.kserve.io/visibility: exposed
     opendatahub.io/dashboard: "true"
-  name: granite-3.1-8b-instruct
+  name: granite-3-1-8b-instruct
   namespace: kserve-workshop
 spec:
   predictor:

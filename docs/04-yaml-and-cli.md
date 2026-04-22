@@ -17,7 +17,7 @@
 
 ## Full sample stack for oc apply -f
 
-Files live under **`configs/samples/model-deploy/`**. They are plain Kubernetes YAML (no Helm, no Argo CD). They deploy a **GPU vLLM** stack with a **Red Hat Granite** model image (`registry.redhat.io`). **Edit every `namespace: kserve-workshop` field** (and names if you change them) to match your Data Science project before applying.
+Files live under **`configs/samples/model-deploy/`**. They are plain Kubernetes YAML (no Helm, no Argo CD). They deploy a **GPU vLLM** stack with a **Red Hat Granite** model image (`registry.redhat.io`). All objects use the workshop namespace **`kserve-workshop`** ([Topic 0](/docs/00-setup.md)).
 
 Apply **in this order** so the `ServingRuntime` exists before the `InferenceService` references it:
 
@@ -29,20 +29,20 @@ oc apply -f configs/samples/model-deploy/inferenceservice.yaml
 
 Use the **ordered** commands above on first deploy; applying the whole directory at once can process files in an order where the `InferenceService` is created before the `ServingRuntime` exists.
 
-- [ ] Confirm your project has a **hardware profile** and **GPU** capacity matching the annotations (see `inferenceservice.yaml`).  
+- [ ] Confirm **`kserve-workshop`** has a **hardware profile** and **GPU** capacity matching the annotations (see `inferenceservice.yaml`).  
 - [ ] For **private** `registry.redhat.io` pulls, use cluster pull secrets or add `opendatahub.io/connections` on the `InferenceService` per [Private OCI registry](#private-oci-registry) and Red Hat docs.  
 - [ ] `model-sa-token.yaml` is optional client RBAC; skip it if you only need the deployed endpoint.
 
 ```sh
-oc get servingruntime -n <your-project>
-oc get inferenceservice -n <your-project>
+oc get servingruntime -n kserve-workshop
+oc get inferenceservice -n kserve-workshop
 ```
 
 ## InferenceService example (public OCI)
 
 This repository includes a commented sample: [`configs/samples/inferenceservice-oci-sample.yaml`](/configs/samples/inferenceservice-oci-sample.yaml). It assumes you built and pushed the **MobileNet** image from [Topic 2](/docs/02-preparing-and-storing-models.md) (or use a facilitator-provided `oci://` URI).
 
-- [ ] Copy the sample into `scratch/` and replace placeholders (`<namespace>`, `quay.io/...`, runtime name, resources).
+- [ ] Copy the sample into `scratch/` and replace placeholders (`quay.io/...`, runtime name, resources). Namespace is already **`kserve-workshop`**.
 
 ```sh
 cp configs/samples/inferenceservice-oci-sample.yaml scratch/my-isvc.yaml
@@ -56,7 +56,7 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: sample-isvc-oci
-  namespace: <your-project>
+  namespace: kserve-workshop
 spec:
   predictor:
     model:
@@ -82,16 +82,17 @@ oc apply -f scratch/my-isvc.yaml
 - [ ] Watch status:
 
 ```sh
-oc get inferenceservice -n <your-project>
-oc describe inferenceservice sample-isvc-oci -n <your-project>
+oc get inferenceservice -n kserve-workshop
+oc describe inferenceservice sample-isvc-oci -n kserve-workshop
 ```
 
 ## Private OCI registry
 
-- [ ] Create a **pull secret** in your namespace for the registry.  
+- [ ] Create a **pull secret** in **`kserve-workshop`** for the registry.  
 - [ ] Attach it to the **default** service account (or the service account your `InferenceService` uses per documentation):
 
 ```sh
+oc project kserve-workshop
 oc secrets link default <pull-secret-name> --for=pull
 ```
 

@@ -37,7 +37,7 @@
 ## Verification
 
 - [ ] **Dashboard** — Deployment shows Ready; copy URL.  
-- [ ] **CLI** — `oc get inferenceservice -n <ns>` shows **URL** and **conditions**.  
+- [ ] **CLI** — `oc get inferenceservice -n kserve-workshop` shows **URL** and **conditions**.  
 - [ ] **Inference** — `curl` or a small script against the predict or OpenAI-compatible path (for example `/v1/chat/completions` for compatible generative stacks), passing **Bearer** token if required.
 
 Example (adjust host, path, and body to your runtime):

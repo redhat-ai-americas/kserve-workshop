@@ -1,6 +1,6 @@
 # Granite vLLM InferenceService (RawDeployment). Apply after `vllm-servingruntime.yaml`.
 # Requires GPU-capable nodes and pull access to `registry.redhat.io`.
-# Edit `metadata.namespace` (and optional `opendatahub.io/connections` for private OCI) if needed.
+# Namespace: kserve-workshop. Add `opendatahub.io/connections` if private registry auth is required.
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:

@@ -10,6 +10,8 @@ Hands-on workshop for deploying models on the **single-model serving platform (K
 
 If you are starting the workshop, open **[the first set of instructions](/docs/00-setup.md)**.
 
+**Namespace:** All labs assume a single Data Science project / OpenShift namespace named **`kserve-workshop`**. Create it in Topic 0 with `oc new-project kserve-workshop` (or `oc project kserve-workshop` if it already exists).
+
 The repository layout follows the [hobbyist guide to RHOAI](https://github.com/redhat-na-ssa/hobbyist-guide-to-rhoai.git) workshop pattern.
 
 ## Learning outcomes

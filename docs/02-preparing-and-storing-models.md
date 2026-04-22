@@ -72,11 +72,11 @@ The instructor builds once and publishes to Quay; participants only **reference*
 
 This track follows Red Hat’s documented flow: **upload model files to the PVC attached to a workbench**, then deploy using **existing cluster storage**. For the upstream procedure, see *Deploying models* → **Uploading model files to a Persistent Volume Claim (PVC)** in [Red Hat OpenShift AI documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
-### 1. Open your Data Science project
+### 1. Open the `kserve-workshop` project
 
 1. Log in to the **OpenShift AI** dashboard.
 2. Go to **Data science projects** (or **Projects**).
-3. Open the **same project** you use for serving (the namespace you selected with `oc project` in [Topic 0](/docs/00-setup.md)).
+3. Open the **`kserve-workshop`** project ([Topic 0](/docs/00-setup.md)).
 
 ### 2. Create a workbench
 
@@ -109,14 +109,14 @@ More detail: [Creating a project workbench](https://docs.redhat.com/en/documenta
 
 **Stop the workbench after copying (before Topic 3 deploy)**
 
-The workbench PVC is usually **ReadWriteOnce**: only one pod can mount it at a time. After your model file is on the volume, **stop the workbench** from the OpenShift AI project (**Workbenches** → stop). That releases the PVC so **Deploy model** in Topic 3 can use the same storage.
+The workbench PVC is usually **ReadWriteOnce**: only one pod can mount it at a time. After your model file is on the volume, **stop the workbench** from **`kserve-workshop`** (**Workbenches** → stop). That releases the PVC so **Deploy model** in Topic 3 can use the same storage.
 
 ### 5. Record PVC name and path for Topic 3
 
 For **Deploy model** (Topic 3), you will choose **existing cluster storage** / **PVC** and a **path to the model file** on that volume.
 
 - **PVC:** select the PVC name attached to this workbench. This can be found in the OpenShift AI dashboard under the project’s **Cluster storage** tab. 
-- **Path:** relative to that volume’s root—e.g. **`models/mobilenetv2-7.onnx`** if you used the layout above.
+- **Path:** relative to that volume’s root—e.g. You will just use the model root. For example, **`models/`** if you used the layout above.
 
 Write these down; Topic 3 uses them in the platform.
 
@@ -132,13 +132,6 @@ Write these down; Topic 3 uses them in the platform.
 - [ ] **Track A:** Image builds locally and pushes successfully; record **`oci://...`** for Topic 3–4.
 - [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3; **workbench stopped** before Topic 3 deploy (same PVC).
 
-### Verify locally (facilitators)
-
-From the repo root:
-
-```sh
-./scripts/verify-workshop-samples.sh
-```
 
 <p align="center">
 <a href="/docs/01-overview-and-storage.md">Prev</a>

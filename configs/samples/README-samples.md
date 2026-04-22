@@ -1,6 +1,6 @@
 # Sample manifests
 
-- **`inferenceservice-oci-sample.yaml`** — Template `InferenceService` using `storageUri` with an `oci://` reference for the **MobileNet v2 ONNX** image you built in [Topic 2](/docs/02-preparing-and-storing-models.md). Edit namespace, runtime name, image URI, and resources before `oc apply`.
+- **`inferenceservice-oci-sample.yaml`** — Template `InferenceService` using `storageUri` with an `oci://` reference for the **MobileNet v2 ONNX** image you built in [Topic 2](/docs/02-preparing-and-storing-models.md). Namespace is **`kserve-workshop`**; edit runtime name, image URI, and resources before `oc apply`.
 
 - **`Containerfile.model-example`** — Minimal pattern for building a model image. The workshop copies **`extras/models/mobilenetv2-7.onnx`** into `models/1/` before building:
 

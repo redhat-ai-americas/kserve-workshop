@@ -16,10 +16,10 @@ Follow Red Hat documentation for architecture and procedures: [Deploying models 
 
 - [ ] Access to an OpenShift cluster with **Red Hat OpenShift AI Self-Managed** installed (this material targets the 3.x line; match docs to your installed version).
 - [ ] Ability to log in to the **OpenShift AI dashboard** as a project user (cluster admin or dedicated admin rights if you must enable or approve runtimes).
-- [ ] **Single-model serving** and **KServe** enabled on the cluster; cluster or namespace has **ServingRuntime** resources available (for example vLLM for NVIDIA, OpenVINO, or your approved custom runtimes).
-- [ ] A **Data Science project** (or equivalent) with a **storage connection** where needed (S3-compatible, OCI registry, or PVC).
+- [ ] **Single-model serving** and **KServe** enabled on the cluster; the cluster or **`kserve-workshop`** has **ServingRuntime** resources available (for example vLLM for NVIDIA, OpenVINO, or your approved custom runtimes).
+- [ ] A **Data Science project** named **`kserve-workshop`** (all topics use this namespace) with a **storage connection** where needed (S3-compatible, OCI registry, or PVC).
 - [ ] For **OCI model images**: [Podman](https://podman.io/) (or Docker) on your laptop or bastion, and credentials to push to a registry (for example [Quay.io](https://quay.io/)).
-- [ ] For **GPU** exercises: GPU Operator and Node Feature Discovery configured; accelerators visible to workloads in your namespace.
+- [ ] For **GPU** exercises: GPU Operator and Node Feature Discovery configured; accelerators visible to workloads in **`kserve-workshop`**.
 - [ ] A **sample model** for testing (this repo includes **MobileNet ONNX** under `extras/models/`, or use another URI suitable for your runtime).
 - [ ] **`oc`** CLI installed and network access to the cluster API.
 - [ ] Comfort with YAML, basic container workflows, and HTTP inference concepts.
@@ -45,10 +45,16 @@ The repository includes a sample ONNX under **`extras/models/`** (MobileNet v2) 
 oc login <openshift_api_url> -u <username> -p <password>
 ```
 
-- [ ] Set your target **namespace** for labs (replace with your project name. For example: kserve-workshop).
+- [ ] Create and use the workshop **namespace** (OpenShift project) **`kserve-workshop`**:
 
 ```sh
-oc new-project <your-data-science-project>
+oc new-project kserve-workshop
+```
+
+If that project **already exists** (for example you are repeating the lab), switch into it instead:
+
+```sh
+oc project kserve-workshop
 ```
 
 ## Optional: automated prerequisites (step 0)
@@ -88,7 +94,7 @@ Links like `/docs/…` in the files are meant for **GitHub**; in the shell, path
 
 - [ ] Confirm KServe APIs exist: `oc api-resources | grep -E 'inferenceservice|servingruntime' || true`
 - [ ] Optional: `oc get servingruntime -A` — may be empty until runtimes are installed (see [Red Hat docs](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform)).
-- [ ] In the OpenShift AI UI, open your project and confirm you can start the **Deploy model** flow (labels vary by version).
+- [ ] In the OpenShift AI UI, open the **`kserve-workshop`** project and confirm you can start the **Deploy model** flow (labels vary by version).
 
 <p align="center">
 <a href="/README.md">Prev</a>

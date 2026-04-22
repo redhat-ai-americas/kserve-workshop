@@ -1,6 +1,7 @@
 # Example InferenceService for ONNX in an OCI image (OpenVINO / OVMS-style runtime).
 # Workshop model: build image from extras/models/mobilenetv2-7.onnx (see docs/02).
-# Replace placeholders before applying. Runtime name must exist on your cluster:
+# Namespace is fixed for this workshop. Replace image URI placeholders before applying.
+# Runtime name must exist on your cluster:
 #   oc get servingruntime -A
 #
 # Reference: https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform
@@ -9,7 +10,7 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: sample-isvc-oci
-  namespace: REPLACE_WITH_YOUR_PROJECT
+  namespace: kserve-workshop
 spec:
   predictor:
     model:

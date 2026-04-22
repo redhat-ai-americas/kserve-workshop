@@ -1,5 +1,4 @@
-# vLLM ServingRuntime for the bundled InferenceService sample.
-# Edit `metadata.namespace` if your Data Science project is not `kserve-workshop`.
+# vLLM ServingRuntime for the bundled InferenceService sample (namespace: kserve-workshop).
 apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:

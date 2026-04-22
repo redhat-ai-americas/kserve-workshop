@@ -23,10 +23,10 @@
 
 ## Open the Deploy model flow
 
-Deploy into the same Project you created in [Topic 0](/docs/00-setup.md) with `oc new-project`.
+Deploy into the **`kserve-workshop`** project from [Topic 0](/docs/00-setup.md).
 
 1. In the **OpenShift AI** dashboard, go to **Projects**.
-2. Select the Project you created
+2. Select **`kserve-workshop`**.
 3. Open the **Deployments** tab for the project.
 4. Click **Deploy model** to start the flow described in the next section.
 
@@ -53,10 +53,10 @@ You pushed an image with Podman and recorded **`oci://quay.io/<org>/<repo>:<tag>
 
 ### Track B — PVC / existing cluster storage
 
-You placed **`mobilenetv2-7.onnx`** on the workbench PVC and recorded **PVC name** + **relative path**.
+You placed **`mobilenetv2-7.onnx`** on the workbench PVC and recorded **PVC name** + **model root path**.
 
 1. **Model Location:** choose `Cluster storage` 
-2. **Model path:** `PVC name` + `relative path` (`models/mobilenetv2-7.onnx`).  
+2. **Model path:** `PVC name` + `relative model root path` (`models/`).  
 3. **Model type:** choose `Predictive`.  
 
 - continue to next section
@@ -83,7 +83,7 @@ After this screen, both tracks continue to **Model deployment** (hardware, runti
 
 ## Hands-on exercise (~25–35 min)
 
-- [ ] In your **Topic 0** project: **Deployments** → **Deploy model** (see [Open the Deploy model flow](#open-the-deploy-model-flow) above).  
+- [ ] In **`kserve-workshop`**: **Deployments** → **Deploy model** (see [Open the Deploy model flow](#open-the-deploy-model-flow) above).  
 - [ ] **Model details:** follow **Track A** or **Track B** under [Model details: connection and path](#model-details-connection-and-path) so your **connection** matches Topic 2 (Quay/OCI **or** PVC) and your URI or file path is correct.  
 - [ ] Select appropriate **hardware** and **runtime** (auto unless you need manual).  
 - [ ] Optionally register an **AI asset** if your organization uses the model registry integration.  

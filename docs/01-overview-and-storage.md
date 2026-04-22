@@ -39,7 +39,7 @@ Each deployed model gets its own serving deployment. This pattern suits **large 
 
 ## Hands-on (facilitator demo, ~10 min)
 
-- [ ] In OpenShift AI: **Projects** → your project → **Deployments** → start **Deploy model** 
+- [ ] In OpenShift AI: **Projects** → **`kserve-workshop`** → **Deployments** → start **Deploy model** 
 - [ ] Walk through the first screen: model **location** and **type** (predictive vs generative) without submitting.
 - [ ] Discuss where each storage type appears and when OCI is preferable for **large** models.
 

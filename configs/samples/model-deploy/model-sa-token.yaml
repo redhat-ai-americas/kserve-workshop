@@ -1,5 +1,5 @@
 # ServiceAccount, token Secret, and RBAC so a client can read this InferenceService (optional).
-# Names match `inferenceservice.yaml`. Edit `namespace` fields if needed.
+# Names match `inferenceservice.yaml`. Namespace: kserve-workshop.
 ---
 apiVersion: v1
 kind: ServiceAccount

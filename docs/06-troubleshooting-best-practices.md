@@ -33,9 +33,9 @@
 Commands:
 
 ```sh
-oc get events -n <namespace> --sort-by=.lastTimestamp
-oc logs deploy/<predictor-deployment> -n <namespace> -c <container>
-oc describe inferenceservice <name> -n <namespace>
+oc get events -n kserve-workshop --sort-by=.lastTimestamp
+oc logs deploy/<predictor-deployment> -n kserve-workshop -c <container>
+oc describe inferenceservice <name> -n kserve-workshop
 ```
 
 ## Best practices

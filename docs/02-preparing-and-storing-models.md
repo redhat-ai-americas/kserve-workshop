@@ -115,7 +115,7 @@ Red Hat documents the project PVC mount as **`/opt/app-root/src/`** in the workb
 
 For **Deploy model** (Topic 3), you will choose **existing cluster storage** / **PVC** and a **path to the model file** on that volume.
 
-- **PVC:** select the PVC name attached to this workbench. This can be found back in the OpenShift AI dashbaord under the Project's  **Cluster storage** tab. 
+- **PVC:** select the PVC name attached to this workbench. This can be found in the OpenShift AI dashboard under the project’s **Cluster storage** tab. 
 - **Path:** relative to that volume’s root—e.g. **`models/mobilenetv2-7.onnx`** if you used the layout above.
 
 Write these down; Topic 3 uses them in the platform.
@@ -129,8 +129,8 @@ Write these down; Topic 3 uses them in the platform.
 ## Exercise (~25–35 min)
 
 - [ ] **Everyone:** Confirm `extras/models/mobilenetv2-7.onnx` is present after clone (`ls -la extras/models/`).
-- [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3.
 - [ ] **Track A (optional):** Image builds locally and pushes successfully; record **`oci://...`** for Topic 3–4.
+- [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3.
 
 ### Verify locally (facilitators)
 

@@ -27,7 +27,7 @@ Each deployed model gets its own serving deployment. This pattern suits **large 
 
 **Other approaches (context only)**  
 - **Distributed inference** (for example **llm-d** where available): scaled-out LLM inference across multiple pods.  
-- **NVIDIA NIM**: optimized inference microservices; optional extension in [Topic 7](/docs/07-nim-extension.md).
+- **NVIDIA NIM**: optimized inference microservices; optional vendor extension (not covered in this workshop).
 
 **Model storage**
 

@@ -32,5 +32,5 @@ spec:
       modelFormat:
         name: vLLM
       name: ""
-      runtime: granite-3.1-8b-instruct
+      runtime: granite-3-1-8b-instruct
       storageUri: oci://registry.redhat.io/rhelai1/modelcar-granite-3-1-8b-starter-v2:1.5

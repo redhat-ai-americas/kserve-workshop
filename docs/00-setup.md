@@ -36,7 +36,7 @@ git clone https://github.com/redhat-ai-americas/kserve-workshop.git
 cd kserve-workshop
 ```
 
-The repository includes a sample ONNX under **`extras/models/`** (MobileNet v2) for [Topic 2](/docs/02-preparing-and-storing-models.md); no external model download is required for class.
+The repository includes a sample ONNX under **`extras/models/`** (MobileNet v2) for [Topic 2](/docs/02-preparing-and-storing-models.md); no external model download is required for class. For [Topic 5](/docs/05-generative-inference-workbench.md), use **`extras/notebooks/generative-inference.ipynb`** on a workbench after the Granite model is deployed.
 
 
 - [ ] Log in to the cluster.

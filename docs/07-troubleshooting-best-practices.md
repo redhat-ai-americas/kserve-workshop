@@ -1,9 +1,9 @@
-# 6. Troubleshooting and best practices
+# 7. Troubleshooting and best practices
 
 <p align="center">
-<a href="/docs/05-advanced-verification-monitoring.md">Prev</a>
+<a href="/docs/06-advanced-verification-monitoring.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
-<a href="/docs/07-nim-extension.md">Next</a>
+<a href="/README.md">Next</a>
 </p>
 
 ### Objectives
@@ -23,7 +23,7 @@
 ## Typical pitfalls
 
 | Symptom | Things to check |
-|--------|-------------------|
+|--------|-----------------|
 | Predictor **ImagePullBackOff** | Image name/tag, **pull secrets**, registry firewall, `imagePullPolicy` |
 | **CrashLoop** / OOM | Memory **limits**, model size, batch settings |
 | **Pending** pod | **GPU** requests vs node capacity, **taints/tolerations**, **ResourceQuota** |
@@ -52,7 +52,7 @@ oc describe inferenceservice <name> -n kserve-workshop
 - [ ] Fix the manifest and confirm **Ready**.
 
 <p align="center">
-<a href="/docs/05-advanced-verification-monitoring.md">Prev</a>
+<a href="/docs/06-advanced-verification-monitoring.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
-<a href="/docs/07-nim-extension.md">Next</a>
+<a href="/README.md">Next</a>
 </p>

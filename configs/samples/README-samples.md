@@ -1,5 +1,7 @@
 # Sample manifests
 
+- **`../extras/notebooks/generative-inference.ipynb`** — Pre-filled notebook for [Topic 5](/docs/05-generative-inference-workbench.md); set route URL and Bearer token from Secret **`granite-3-1-8b-instruct-sa`**.
+
 - **`hardware-profile/hardware-profile.yaml`** — **`HardwareProfile`** named **`nvidia-gpu`** in **`redhat-ods-applications`**, used by the Granite sample in [Topic 4](/docs/04-yaml-and-cli.md). Apply **before** that `InferenceService` when the profile is missing (often **admin-only**).
 
 - **`inferenceservice-oci-sample.yaml`** — Template `InferenceService` using `storageUri` with an `oci://` reference for the **MobileNet v2 ONNX** image you built in [Topic 2](/docs/02-preparing-and-storing-models.md). Namespace is **`kserve-workshop`**; edit runtime name, image URI, and resources before `oc apply`.

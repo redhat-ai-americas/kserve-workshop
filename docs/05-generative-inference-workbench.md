@@ -58,12 +58,24 @@ Use the **service account token** secret the workshop applied for client access.
 4. Open the secret named **`granite-3-1-8b-instruct-sa`** (type **kubernetes.io/service-account-token**).  
 5. Under **Data**, reveal the **`token`** field and copy its value (the UI usually shows the decoded string).  
 
-**Optional — CLI:**
+**Optional — CLI**
+
+The console shows the **decoded** JWT. Under the hood the Secret stores **`token`** as **base64**; decoding in the shell is easy to get subtly wrong (wrong token in `curl`/notebook while the GUI looks fine).
+
+Prefer **`oc extract`**—it writes the **decoded** key to stdout and avoids many `jsonpath | base64` footguns:
 
 ```sh
-oc get secret granite-3-1-8b-instruct-sa -n kserve-workshop -o jsonpath='{.data.token}' | base64 -d
-echo
+oc extract secret/granite-3-1-8b-instruct-sa -n kserve-workshop --keys=token --to=-
 ```
+
+Copy the output **with no extra newline** before the next shell prompt (or pipe through **`tr -d '\n'`** if you assign to a variable):
+
+```sh
+TOKEN=$(oc get secret granite-3-1-8b-instruct-sa -n kserve-workshop -o jsonpath='{.data.token}' | base64 -d | tr -d '\n')
+echo "length=${#TOKEN}"
+```
+
+If **`length`** is tiny or auth still fails, compare to the GUI token length; a trailing **`echo`** after **`base64 -d`** often pastes a **newline** into `Bearer`, which breaks validation even though the bytes look almost right.
 
 ## 4. Open the workshop notebook in the workbench
 

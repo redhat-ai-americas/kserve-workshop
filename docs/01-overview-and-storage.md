@@ -8,7 +8,7 @@
 
 ### Objectives
 
-- Explain how **KServe RawDeployment** on the single-model serving platform fits large or resource-heavy models.
+- Explain how **KServe** inference server fits large or resource-heavy models.
 - Compare storage and serving options so participants can choose appropriately in their environment.
 
 ### Rationale
@@ -18,26 +18,26 @@
 ### Takeaways
 
 - One model instance maps to a dedicated serving path on this platform; storage can be **URI/S3**, **OCI**, or **PVC**.
-- **OCI model images (model cars)** reduce duplication and can improve startup compared to repeatedly syncing large trees to PVCs.
+- **OCI model images (model cars)** reduce duplication and can improve startup compared to repeatedly syncing large files to PVCs.
 
 ## Core concepts
 
-**Single-model serving (KServe RawDeployment)**  
-Each deployed model gets its own serving deployment. This pattern suits **large language models** and other workloads that need isolation and predictable resources. Details and diagrams are in Red Hat’s guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+**KServe Model Serving**  
+Each deployed model gets its own serving deployment. This pattern suits predictive and large language models that need isolation and predictable resources. Details and diagrams are in Red Hat’s guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
 **Other approaches (context only)**  
 - **Distributed inference** (for example **llm-d** where available): scaled-out LLM inference across multiple pods.  
-- **NVIDIA NIM**: optimized inference microservices; optional vendor extension (not covered in this workshop).
+- **NVIDIA NIM**: optimized inference microservices; OpenShift AI supported deployments.
 
 **Model storage**
 
 | Approach | Typical use |
 |----------|-------------|
 | **S3 / HTTP(S) URI** | Central object store; good for shared artifacts and automation. |
-| **OCI image** | Pack model weights and layout into an image; **pre-fetch** and less disk churn on the node; aligns with “model car” patterns in documentation. |
+| **OCI image** | Pack model weights and layout into a model car image; pre-fetch and less disk churn on the node |
 | **PVC** | Simple upload from a workbench; good for smaller artifacts or teams without a registry workflow. |
 
-## Hands-on (facilitator demo, ~10 min)
+## Hands-on (~10 min)
 
 - [ ] In OpenShift AI: **Projects** → **`kserve-workshop`** → **Deployments** → start **Deploy model** 
 - [ ] Walk through the first screen: model **location** and **type** (predictive vs generative) without submitting.

@@ -8,24 +8,24 @@
 
 ### Objectives
 
-- Deploy an `InferenceService` with **`oc apply`** for repeatable GitOps-style workflows.
-- Apply a **`HardwareProfile`** when the sample references one by name, so annotations resolve to concrete resources.
-- Reference **ServingRuntime** names available on the cluster and handle **private OCI** registries.
+- Deploy an `InferenceService` with `oc apply` for repeatable GitOps-style workflows.
+- Apply a `HardwareProfile` so you can assign models to specific compute nodes. 
+- Reference **ServingRuntime** names available on the cluster.
 
 ### Rationale
 
-- Dashboard deployments are convenient; YAML is how you integrate **private images**, **custom args**, and **CI/CD**.
-- The Granite **sample** `InferenceService` sets **`opendatahub.io/hardware-profile-name: nvidia-gpu`**. OpenShift AI uses **`HardwareProfile`** objects (in **`redhat-ods-applications`**) to turn that name into **CPU, memory, accelerator**, and **scheduling** defaults. If **`nvidia-gpu`** is missing, the controller has no authoritative sizing for that annotation—apply the workshop profile **before** the `InferenceService`, or reuse a profile your admins already installed.
+- The dashboard is fastest for one-offs; YAML under version control is how teams standardize pulls, resources, and ServingRuntime settings, and promote them through review and automation.
+- The model `InferenceService` we will use sets `opendatahub.io/hardware-profile-name: nvidia-gpu`. OpenShift AI uses `HardwareProfile` objects (in `redhat-ods-applications`) to turn that name into CPU, memory, accelerator**, and scheduling defaults. If the `HardwareProfile` is missing, the controller won't create the pods because it doesn't see any available resources.
 
-## Hardware profile (step 1 for the full sample)
+## Hardware profile 
 
-The file [`configs/samples/hardware-profile/hardware-profile.yaml`](/configs/samples/hardware-profile/hardware-profile.yaml) defines **`HardwareProfile/nvidia-gpu`** in **`redhat-ods-applications`**, matching the `opendatahub.io/hardware-profile-*` annotations on [`configs/samples/model-deploy/inferenceservice.yaml`](/configs/samples/model-deploy/inferenceservice.yaml). **Cluster admin** or equivalent RBAC is usually required; facilitators often apply it **once** per environment. If **`nvidia-gpu`** already exists, skip the **first** `oc apply` in the ordered block below.
+The file [`configs/samples/hardware-profile/hardware-profile.yaml`](/configs/samples/hardware-profile/hardware-profile.yaml) defines `HardwareProfile/nvidia-gpu` in `redhat-ods-applications`, matching the `opendatahub.io/hardware-profile-*` annotations on [`configs/samples/model-deploy/inferenceservice.yaml`](/configs/samples/model-deploy/inferenceservice.yaml). Cluster admin or equivalent RBAC is usually required; facilitators often apply it once per environment.
 
 ## Full sample stack for oc apply -f
 
-Files under **`configs/samples/model-deploy/`** are plain Kubernetes YAML (no Helm, no Argo CD). They deploy a **GPU vLLM** stack with a **Red Hat Granite** model image (`registry.redhat.io`). Model objects use **`kserve-workshop`** ([Topic 0](/docs/00-setup.md)).
+Files under `configs/samples/model-deploy/` are plain Kubernetes YAML (no Helm, no Argo CD). They deploy a GPU vLLM stack with a Red Hat Granite model image (stored in `registry.redhat.io`). 
 
-Apply **in this order**—hardware profile first (when needed), then `ServingRuntime` before the `InferenceService` that references it:
+Apply **in this order**—hardware profile first , then `ServingRuntime` before the `InferenceService` that references it:
 
 ```sh
 oc apply -f configs/samples/hardware-profile/hardware-profile.yaml
@@ -34,30 +34,18 @@ oc apply -f configs/samples/model-deploy/model-sa-token.yaml
 oc apply -f configs/samples/model-deploy/inferenceservice.yaml
 ```
 
-Use the **ordered** commands above on first deploy; applying only **`model-deploy/`** can create the `InferenceService` before its `ServingRuntime` exists. **Skip** the hardware-profile line if you lack RBAC or the profile is already present.
+Use the ordered commands above on first deploy; applying only `model-deploy/` can create the `InferenceService` before its `ServingRuntime` exists.
 
-The bundled [`inferenceservice.yaml`](/configs/samples/model-deploy/inferenceservice.yaml) already sets **`storageUri`** to an **`oci://`** Granite model image on **`registry.redhat.io`**—there is no separate sample manifest outside **`model-deploy/`**.
+The [`inferenceservice.yaml`](/configs/samples/model-deploy/inferenceservice.yaml) already sets `storageUri` to an `oci://` Granite model (granite-3-1-8b) image on `registry.redhat.io`.
 
-- [ ] **Hardware profile:** applied or **`nvidia-gpu`** already present in **`redhat-ods-applications`**.  
+- [ ] **Hardware profile:** applied.
 - [ ] For **private** `registry.redhat.io` pulls, use cluster pull secrets or add `opendatahub.io/connections` on the `InferenceService` per [Private OCI registry](#private-oci-registry) and Red Hat docs.  
-- [ ] `model-sa-token.yaml` is optional client RBAC; skip it if you only need the deployed endpoint.
 
 ```sh
 oc get servingruntime -n kserve-workshop
 oc get inferenceservice -n kserve-workshop
 ```
 
-## Private OCI registry
-
-- [ ] Create a **pull secret** in **`kserve-workshop`** for the registry.  
-- [ ] Attach it to the **default** service account (or the service account your `InferenceService` uses per documentation):
-
-```sh
-oc project kserve-workshop
-oc secrets link default <pull-secret-name> --for=pull
-```
-
-- [ ] Re-apply the `InferenceService` and verify the predictor pod pulls successfully (`oc get pods`, `oc describe pod`).
 
 ## Hands-on exercise (~20–30 min)
 

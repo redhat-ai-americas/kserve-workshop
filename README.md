@@ -1,18 +1,16 @@
 # kserve-workshop
 
-Hands-on workshop for deploying models on the **single-model serving platform (KServe RawDeployment)** in Red Hat OpenShift AI Self-Managed. Content aligns with the official guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+Hands-on workshop for deploying models on KServe in Red Hat OpenShift AI Self-Managed. Content aligns with the official guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
 **Audience:** Data scientists, ML engineers, and platform admins who deploy or serve models at scale. Prior experience with OpenShift projects, model storage (S3/OCI/PVC), and basic YAML is recommended.
 
-**Duration:** About 90–120 minutes, including labs (core topics about 70–100 minutes, depending on optional GPU segments).
+**Duration:** About 90–120 minutes, including labs.
 
 **Format:** Short overview → live dashboard and CLI demonstrations → guided exercises → Q&A and troubleshooting.
 
 If you are starting the workshop, open **[the first set of instructions](/docs/00-setup.md)**.
 
-**Namespace:** All labs assume a single Data Science project / OpenShift namespace named **`kserve-workshop`**. Create it in Topic 0 with `oc new-project kserve-workshop` (or `oc project kserve-workshop` if it already exists).
-
-The repository layout follows the [hobbyist guide to RHOAI](https://github.com/redhat-na-ssa/hobbyist-guide-to-rhoai.git) workshop pattern.
+**Namespace:** All labs assume a single Data Science project / OpenShift namespace named **`kserve-workshop`**. Create it in Topic 0 with `oc new-project kserve-workshop`.
 
 ## Learning outcomes
 
@@ -20,9 +18,9 @@ Participants should be able to:
 
 - Store the bundled **MobileNet v2 ONNX** in OCI images (model cars) or PVCs and understand trade-offs.
 - Use the OpenShift AI **Deploy model** platform with automatic or manual runtime and hardware selection.
-- Deploy `InferenceService` resources with YAML and `oc` for repeatable, advanced scenarios (private registries, custom arguments).
-- Call a **generative** model over HTTPS with a **Bearer token** from a workbench using the bundled notebook.
-- Tune **vLLM** arguments in **`ServingRuntime`** YAML, verify readiness, and skim **metrics** for a deployment.
+- Deploy `InferenceService` resources with YAML and `oc` for repeatable, advanced scenarios.
+- Call a generative model over HTTPS from a workbench using the bundled notebook.
+- Tune **vLLM** arguments in **`ServingRuntime`** YAML, verify readiness.
 - Apply common troubleshooting steps for runtime mismatches, resource pressure, and image pull issues.
 
 ## Lab sequence
@@ -40,6 +38,4 @@ Participants should be able to:
 
 ## Primary documentation
 
-- Red Hat OpenShift AI Self-Managed 3.4 — *Deploying models*: [single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform)
-
-Use the product version that matches your cluster; procedures are consistent across recent 3.x releases, but UI labels and CRD details can differ slightly.
+- Red Hat OpenShift AI Self-Managed 3.2 — *Deploying models*: [single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform)

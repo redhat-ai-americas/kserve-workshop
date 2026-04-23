@@ -8,31 +8,31 @@
 
 ### Objectives
 
-- Tune **vLLM** by editing the **`ServingRuntime`** YAML you applied in [Topic 4](/docs/04-yaml-and-cli.md), then **`oc apply`** again.  
-- Re-verify **readiness** and a short **inference** smoke test after the change.  
+- Tune vLLM by editing the `ServingRuntime` YAML you applied in [Topic 4](/docs/04-yaml-and-cli.md), then `oc apply` again.  
+- Re-verify readiness and a short inference smoke test after the change.  
 - Locate **metrics** for the deployment in the dashboard and optionally in **OpenShift Observe**.
 
 ### Rationale
 
-- You already deployed the stack from Git-tracked YAML; changing **`spec.containers[].args`** in the same file keeps **reviews, diffs, and repeatability** aligned with how you introduced the runtime—no one-off GUI drift.
+- You already deployed the stack from Git-tracked YAML; changing **`spec.containers[].args`** in the same file keeps reviews, diffs, and repeatability aligned with how you introduced the runtime—no one-off GUI drift.
 
 ### Takeaways
 
-- **vLLM** reads flags from the container **`args`** list (each YAML `-` item is one **argv** token—pair flags like **`--max-model-len`** and **`"8192"`** on separate lines).  
-- Common flags include **`--max-model-len`**, **`--gpu-memory-utilization`**, **`--dtype`**, and **`--max-num-seqs`**; oversizing can cause OOM or slow first token.  
-- After **`oc apply`**, watch the **predictor** pods until the new revision is healthy before trusting latency numbers.
+- vLLM reads flags from the container `args` list.
+- Common flags include `--max-model-len`, `--gpu-memory-utilization`, `--dtype`, and `--max-num-seqs`; oversizing can cause OOM or slow first token.  
+- After `oc apply`, watch the predictor pods until the new revision is healthy before trusting latency numbers.
 
 ## Tune vLLM arguments in YAML
 
-Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/configs/samples/model-deploy/vllm-servingruntime.yaml). The **`granite-3-1-8b-instruct`** `ServingRuntime` sets **`spec.containers[0].args`** for the vLLM process (alongside **`command`**: `python -m vllm.entrypoints.openai.api_server`).
+Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/configs/samples/model-deploy/vllm-servingruntime.yaml). The `granite-3-1-8b-instruct` `ServingRuntime` sets `spec.containers[0].args` for the vLLM process (alongside `command`: `python -m vllm.entrypoints.openai.api_server`).
 
-1. **Copy** the file to `scratch/` if you prefer not to edit the repo copy:
+1. Copy the file to `scratch/` if you prefer not to edit the repo copy:
 
    ```sh
    cp configs/samples/model-deploy/vllm-servingruntime.yaml scratch/vllm-servingruntime.yaml
    ```
 
-2. **Edit** `args:` under **`spec.containers`** (same file in-repo or under `scratch/`). The sample already includes a **Topic 6** block with example flags—**change the numbers** to match your GPU memory and latency goals, or **remove** lines you do not want.
+2. Edit `args:` under `spec.containers` (same file in-repo or under `scratch/`). The sample already includes a Topic 6 block with example flags. Change the numbers to match your GPU memory and latency goals, or remove lines you do not want.
 
 | Example args (two YAML entries per flag) | Role |
 |------------------------------------------|------|
@@ -41,7 +41,7 @@ Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/config
 | `--dtype` / `auto` | Precision selection (`bfloat16` if your team standardizes on it). |
 | `--max-num-seqs` / `"256"` | Concurrent sequences ceiling. |
 
-3. **Apply** the updated `ServingRuntime`:
+3. Apply the updated `ServingRuntime`:
 
    ```sh
    oc apply -f configs/samples/model-deploy/vllm-servingruntime.yaml
@@ -49,20 +49,20 @@ Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/config
    oc rollout restart deployment/granite-3-1-8b-instruct-predictor
    ```
 
-4. **Wait** for the model deployment to pick up the revision (new **predictor** pod may roll). Watch:
+4. Wait for the model deployment to pick up the revision (new predictor pod may roll). Watch:
 
    ```sh
    oc get pods -n kserve-workshop -l serving.kserve.io/inferenceservice=granite-3-1-8b-instruct
    oc get events -n kserve-workshop --sort-by=.lastTimestamp | tail -20
    ```
 
-- [ ] **`oc apply`** succeeds and pods become **Ready** without crash loops.
+- [ ] **`oc apply`** succeeds and pods become Ready without crash loops.
 
 ## Verification
 
-- [ ] **Dashboard** — Deployment **Ready**; inference **URL** unchanged unless the route was recreated.  
+- [ ] **Dashboard** — Deployment Started
 - [ ] **CLI** — `oc get inferenceservice granite-3-1-8b-instruct -n kserve-workshop` and `oc describe inferenceservice granite-3-1-8b-instruct -n kserve-workshop` for **conditions** and **events**. Inspect the new args in the servingruntime `oc describe servingruntime granite-3-1-8b-instruct`
-- [ ] **Inference** — Repeat a quick call from [Topic 5](/docs/05-generative-inference-workbench.md) (notebook or **`/v1/models`** / **`/v1/chat/completions`**) with the same **Bearer** token.
+- [ ] **Inference** — Repeat a quick call from [Topic 5](/docs/05-generative-inference-workbench.md) (notebook or `/v1/models` / `/v1/chat/completions`) with the same Bearer token and inference endpoint.
 
 
 <p align="center">

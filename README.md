@@ -35,8 +35,8 @@ Participants should be able to:
 | [3 – Dashboard platform](/docs/03-dashboard-platform.md) | Deploy model flow, runtime selection, strategies |
 | [4 – YAML & CLI](/docs/04-yaml-and-cli.md) | `ServingRuntime`, `InferenceService`, private OCI |
 | [5 – Generative inference](/docs/05-generative-inference-workbench.md) | Route + SA token secret, notebook on a workbench |
-| [6 – vLLM tuning & monitoring](/docs/06-advanced-verification-monitoring.md) | **ServingRuntime** YAML args, **`oc apply`**, verification, metrics |
-| [7 – Troubleshooting & practices](/docs/07-troubleshooting-best-practices.md) | Pitfalls, production tips, optional failure exercise |
+| [6 – vLLM tuning & monitoring](/docs/06-advanced-deployment.md) | **ServingRuntime** YAML args, **`oc apply`**, verification, metrics |
+| [7 – Troubleshooting & practices](/docs/07-troubleshooting-best-practices.md) | Pitfalls, operational checklist (with doc links), optional failure exercise |
 
 ## Primary documentation
 

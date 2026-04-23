@@ -3,7 +3,7 @@
 <p align="center">
 <a href="/docs/04-yaml-and-cli.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
-<a href="/docs/06-advanced-verification-monitoring.md">Next</a>
+<a href="/docs/06-advanced-deployment.md">Next</a>
 </p>
 
 ### Objectives
@@ -75,5 +75,5 @@ oc extract secret/granite-3-1-8b-instruct-sa -n kserve-workshop --keys=token --t
 <p align="center">
 <a href="/docs/04-yaml-and-cli.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
-<a href="/docs/06-advanced-verification-monitoring.md">Next</a>
+<a href="/docs/06-advanced-deployment.md">Next</a>
 </p>

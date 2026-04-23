@@ -36,7 +36,7 @@ Participants should be able to:
 | [4 – YAML & CLI](/docs/04-yaml-and-cli.md) | `ServingRuntime`, `InferenceService`, private OCI |
 | [5 – Generative inference](/docs/05-generative-inference-workbench.md) | Route + SA token secret, notebook on a workbench |
 | [6 – vLLM tuning & monitoring](/docs/06-advanced-deployment.md) | **ServingRuntime** YAML args, **`oc apply`**, verification, metrics |
-| [7 – Troubleshooting & practices](/docs/07-troubleshooting-best-practices.md) | Pitfalls, operational checklist (with doc links), optional failure exercise |
+| [7 – Troubleshooting & practices](/docs/07-troubleshooting-best-practices.md) | Pitfalls, deploy vs debug practices, optional failure exercise |
 
 ## Primary documentation
 

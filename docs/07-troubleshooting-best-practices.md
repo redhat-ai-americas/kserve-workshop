@@ -17,9 +17,9 @@
 
 ### Takeaways
 
-- Start from **events**, **pod logs**, and **`InferenceService` conditions**, then narrow to the runtime container.  
-- **Model storage** is a product-supported choice (**S3-compatible storage, URI, OCI image, or PVC** via project connections)—match it to governance and pipeline, not a one-line default.  
-- **RollingUpdate** and **GPU** workloads need enough **quota and schedulable capacity** for surge semantics; add **monitoring** for errors and latency as you harden for production.
+- Start from **`InferenceService` conditions**, classify **pull vs run vs schedule**, then use **predictor pod logs** for the runtime container.  
+- **Validate on the route** with the same **auth** production uses (for example bearer token when the dashboard enables it)—not only in-cluster checks.  
+- Keep **runtime name**, **model format**, **resources**, and **hardware profile** aligned with what the platform ships; mismatches are a common source of “wrong backend” or endless rollouts.
 
 ## Typical pitfalls
 
@@ -34,22 +34,33 @@
 Commands:
 
 ```sh
-# Predictor Deployment is usually <InferenceService-name>-predictor; adjust -c if your pod template uses another container name.
 oc logs deployment/<inferenceservice-name>-predictor -n kserve-workshop --tail=200 -c kserve-container
 oc describe inferenceservice <name> -n kserve-workshop
 ```
 
-**Note:** **Events** in Kubernetes are **short-lived**; `oc get events` can be empty even when a rollout recently succeeded—rely on **`oc describe`**, **pod logs**, and **`InferenceService` conditions** when events have already aged out.
+**Note:** Kubernetes **events** expire quickly; an empty `oc get events` list does not prove nothing failed—use **`describe`** on the **`InferenceService`**, **Deployment**, and **Pod**, plus **logs**.
 
-## Operational checklist (with product references)
+## Best practices
 
-Use the documentation version that matches your cluster (this workshop links **OpenShift AI Self-Managed 3.4** as an example). The points below summarize **documented product behavior** and **standard OpenShift concerns**—they are a presentation aid, not a replacement for [Red Hat support](https://access.redhat.com/support) or your internal runbooks.
+### When deploying
 
-- **Pick model storage deliberately.** Red Hat documents **S3-compatible storage, a URI, an OCI image, or a PVC** (with a project connection) as ways to supply a model. For **OCI** (“modelcars” in KServe), the product documentation states it can help **reduce repeated downloads, reduce local disk use, and use pre-fetched images**—benefits still depend on your registry, network, and how you version images. See [*Deploying models*](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index) (Chapter 1 *Storing models*) and [Deploying a model stored in an OCI image by using the CLI](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html/deploying_models/deploying_models#deploying-model-stored-in-oci-image_rhoai-user).
-- **Plan registry authentication for private OCI models.** For a private OCI repository, the OpenShift AI documentation directs you to configure **image pull secrets** (including on the `InferenceService` when required). See the same *Deploying models* guide and [Using image pull secrets](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/images/managing-images#using-image-pull-secrets) in OpenShift Container Platform documentation.
-- **Validate after every material change.** Re-check **`InferenceService` conditions** and run a **small inference smoke test** after edits to runtime args, resources, or storage—this matches the verification mindset in the product deployment procedures; **CI automation** is your organization’s quality bar, not a statement unique to OpenShift AI.
-- **Size quotas before aggressive rollouts.** Rolling updates that need **temporary extra pods**, **GPU**, or **large images** can hit **namespace or cluster `ResourceQuota`** and scheduling limits. Review [Using quotas and limit ranges](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/scalability_and_performance/compute-resource-quotas) in OpenShift Container Platform documentation alongside your GPU and registry capacity.
-- **Keep an operations record for repeatability.** Track approved **`ServingRuntime` names**, **hardware profile** name and namespace (for example `opendatahub.io/hardware-profile-*` annotations), **image references** and **mirroring** rules for `registry.redhat.io` or a private registry, and who may change **`spec.containers[].args`**. Anchor day-to-day work to [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+- **Wire the whole path before you tune.** Data reaches the pod through **project connections + `storageUri`**, **`oci://`**, or the path you chose; the predictor process comes from the **`ServingRuntime`** (image and **`args`**). A failure in any leg—connection secret, URI, pull auth, or **wrong `runtime` name**—shows up as pull, mount, or startup errors, not as “model quality” issues.
+
+- **Match the platform naming contract.** `InferenceService` metadata, **`spec.predictor.model.runtime`**, **`modelFormat`**, and **hardware profile** annotations must line up with runtimes and profiles your admins installed. “Almost right” often yields a pod on the wrong stack or never **Ready**.
+
+- **Size for the serving process, not the weight file alone.** Generative stacks (for example **vLLM**) need headroom for **KV cache**, **concurrency**, and overhead—**OOM** and **CrashLoop** are often **limits** and **`args`**, not mysterious defects.
+
+- **Exercise the same path production uses.** Call the **route** with the **same auth** (for example **Bearer** token when `security.opendatahub.io/enable-auth` is **true**). In-cluster `curl` to the Service alone misses TLS, DNS, and token problems.
+
+### When troubleshooting
+
+- **Read `InferenceService` status first.** **`PredictorReady`**, **`Ready`**, and **condition messages** separate scheduling and image pull from model load and configuration. That avoids log-diving when the API already states the failure class.
+
+- **Split “can’t pull” from “can’t run.”** **ImagePullBackOff** → image name/tag, **pull secrets**, registry reachability, **mirrors / ICSP** in restricted clusters. **CrashLoop** / **OOM** → **pod logs**, **memory limits**, **vLLM** (or runtime) **args** and model path. **Pending** → **GPU** requests, **taints/tolerations**, **quota**, **node capacity**. Treating these as one bucket wastes time.
+
+- **Use predictor pod logs for the runtime container.** The **Deployment** is what executes; **`oc describe inferenceservice`** does not always surface every container-level error—tail logs from the revision you are debugging.
+
+- **Do not treat `oc get events` as a durable log.** Events are **short-lived**. Rely on **`describe`** and **logs** when the event stream is empty.
 
 ## Optional exercise (~15–20 min)
 

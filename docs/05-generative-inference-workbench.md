@@ -26,7 +26,7 @@
 ## Prerequisites
 
 - [ ] **`kserve-workshop`** project with the **Granite** stack from Topic 4 (**`InferenceService` `granite-3-1-8b-instruct`**) **Ready**, with **external route** and **token authentication** enabled (as in the sample manifests).  
-- [ ] A **separate** workbench from [Topic 2](/docs/02-preparing-and-storing-models.md) **Track B** when that PVC is used for serving—create it in **§1** below (its own storage; avoids RWO conflicts).
+- [ ] A **separate** workbench from [Topic 2](/docs/02-preparing-and-storing-models.md) **Track B** when that PVC is used for serving—create it in **Step 1** below (its own storage; avoids RWO conflicts).
 
 ## 1. Create the inference workbench
 

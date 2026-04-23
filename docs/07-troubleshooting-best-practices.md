@@ -46,7 +46,7 @@ oc describe inferenceservice <name> -n kserve-workshop
 
 - **Match the platform naming contract.** `InferenceService` metadata, **`spec.predictor.model.runtime`**, **`modelFormat`**, and **hardware profile** annotations must line up with runtimes and profiles your admins installed. “Almost right” often yields a pod on the wrong stack or never **Ready**.
 
-- **Size for the serving process, not the weight file alone.** Generative stacks (for example **vLLM**) need headroom for **KV cache**, **concurrency**, and overhead—**OOM** and **CrashLoop** are often **limits** and **`args`**, not mysterious defects.
+- **Size for the serving process, not the checkpoint size alone.** Generative stacks (for example **vLLM**) need headroom for **KV cache**, **concurrency**, and overhead—**OOM** and **CrashLoop** are often **limits** and **`args`**, not mysterious defects.
 
 - **Exercise the same path production uses.** Call the **route** with the **same auth** (for example **Bearer** token when `security.opendatahub.io/enable-auth` is **true**). In-cluster `curl` to the Service alone misses TLS, DNS, and token problems.
 
@@ -63,7 +63,7 @@ oc describe inferenceservice <name> -n kserve-workshop
 ## Optional exercise (~15–20 min)
 
 - [ ] Apply an `InferenceService` with a **wrong** `hardware profile` name or invalid **runtime** name.  
-- [ ] Capture the **condition** message and **event** that explains the failure.  
+- [ ] Capture the **condition** message and any **event** or **`describe`** output that explains the failure (events may already have expired).  
 - [ ] Fix the manifest and confirm **Ready**.
 
 <p align="center">

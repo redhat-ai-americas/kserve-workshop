@@ -21,6 +21,18 @@ if [[ "$size" -lt "$MIN_BYTES" ]]; then
 fi
 echo "OK: Found MobileNet ONNX (${size} bytes)"
 
+for f in \
+  "${ROOT}/configs/samples/inferenceservice-oci-sample.yaml" \
+  "${ROOT}/configs/samples/model-deploy/inferenceservice.yaml" \
+  "${ROOT}/configs/samples/model-deploy/vllm-servingruntime.yaml"
+do
+  if [[ ! -f "$f" ]]; then
+    echo "FAIL: Missing ${f}"
+    exit 1
+  fi
+done
+echo "OK: Sample manifests present"
+
 stage="${ROOT}/scratch/model-build-verify"
 rm -rf "${stage}"
 mkdir -p "${stage}/models/1"

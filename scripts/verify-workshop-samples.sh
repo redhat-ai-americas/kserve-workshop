@@ -22,7 +22,6 @@ fi
 echo "OK: Found MobileNet ONNX (${size} bytes)"
 
 for f in \
-  "${ROOT}/configs/samples/inferenceservice-oci-sample.yaml" \
   "${ROOT}/configs/samples/model-deploy/inferenceservice.yaml" \
   "${ROOT}/configs/samples/model-deploy/vllm-servingruntime.yaml"
 do

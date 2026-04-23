@@ -38,8 +38,6 @@ oc logs deployment/<inferenceservice-name>-predictor -n kserve-workshop --tail=2
 oc describe inferenceservice <name> -n kserve-workshop
 ```
 
-**Note:** Kubernetes **events** expire quickly; an empty `oc get events` list does not prove nothing failed—use **`describe`** on the **`InferenceService`**, **Deployment**, and **Pod**, plus **logs**.
-
 ## Best practices
 
 ### When deploying

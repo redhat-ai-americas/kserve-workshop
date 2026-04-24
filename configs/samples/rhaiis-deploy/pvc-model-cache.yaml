@@ -1,0 +1,14 @@
+# Model cache PVC for initContainer ORAS pull + vLLM mount.
+# Replace storageClassName with a StorageClass on your cluster (oc get storageclass).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-cache
+  namespace: rhaiis-namespace
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: gp3-csi

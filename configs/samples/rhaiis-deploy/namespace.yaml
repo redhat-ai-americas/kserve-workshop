@@ -1,0 +1,6 @@
+# Namespace for RHAIS sample workloads (Topic 8).
+# Aligns with product documentation examples.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rhaiis-namespace

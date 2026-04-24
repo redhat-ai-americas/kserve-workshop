@@ -6,6 +6,8 @@
 
 - **`model-deploy/`** — **`ServingRuntime`**, **`InferenceService`** (Granite **`oci://`** on `registry.redhat.io`), and optional **`model-sa-token.yaml`** for [Topic 4](/docs/04-yaml-and-cli.md). Apply in the order described in that topic.
 
+- **`rhaiis-deploy/`** — Plain OpenShift manifests for [Topic 8](/docs/08-red-hat-ai-inference-server.md): `namespace.yaml`, `pvc-model-cache.yaml`, `deployment-granite.yaml`, `service-granite.yaml`, `route-granite.yaml`. Create `docker-secret` separately; edit PVC `storageClassName` and confirm the RHAIS image reference before apply (see `rhaiis-deploy/README.md`).
+
 - **`Containerfile.model-example`** — Minimal pattern for building a model image. The workshop copies **`extras/models/mobilenetv2-7.onnx`** into `models/1/` before building:
 
   ```sh

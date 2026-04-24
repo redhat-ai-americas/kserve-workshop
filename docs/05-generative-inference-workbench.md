@@ -42,7 +42,7 @@ Use a **new** workbench only for this topic’s notebook (HTTP client to the mod
 8. **Create** and wait until the workbench is Running.  
 9. Open the workbench to launch the JupyterLab environment.
 
-More detail: [Creating a project workbench](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html/working_on_projects/using-project-workbenches_projects) (match the doc version to your OpenShift AI release).
+More detail: [Creating a project workbench](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html/working_on_projects/using-project-workbenches_projects) (match the doc version to your OpenShift AI release).
 
 ## 2. Copy the inference route
 

@@ -10,7 +10,7 @@
 
 ## Official reference
 
-Follow Red Hat documentation for architecture and procedures: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+Follow Red Hat documentation for architecture and procedures: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
 ## Checklist
 
@@ -84,7 +84,7 @@ Links like `/docs/…` in the files are meant for GitHub; in the shell, paths ar
 ## Verify KServe and model serving
 
 - [ ] Confirm KServe APIs exist: `oc api-resources | grep -E 'inferenceservice|servingruntime' || true`
-- [ ] Optional: `oc get servingruntime -A` — may be empty until runtimes are installed (see [Red Hat docs](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform)).
+- [ ] Optional: `oc get servingruntime -A` — may be empty until runtimes are installed (see [Red Hat docs](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform)).
 - [ ] In the OpenShift AI UI, open the **`kserve-workshop`** project and confirm you can start the **Deploy model** flow (labels vary by version).
 
 <p align="center">

@@ -19,7 +19,7 @@
 ### Takeaways
 
 - vLLM reads flags from the container `args` list.
-- Common flags include `--max-model-len`, `--gpu-memory-utilization`, `--dtype`, and `--max-num-seqs`; oversizing can cause OOM or slow first token.  
+- Common flags include `--max-model-len`, `--gpu-memory-utilization`, `--dtype`, and `--max-num-seqs`; oversizing can cause OOM or slow first token. You can find all of the available flags on the vLLM documentation: https://docs.vllm.ai/en/stable/configuration/engine_args
 - After `oc apply`, watch the predictor pods until the new revision is healthy before trusting latency numbers.
 
 ## Tune vLLM arguments in YAML

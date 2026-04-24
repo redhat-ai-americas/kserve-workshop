@@ -16,4 +16,4 @@
   podman push quay.io/<org>/<repo>:<tag>
   ```
 
-Validate the expected on-disk layout against your chosen **ServingRuntime** and the [deploying models](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform) documentation.
+Validate the expected on-disk layout against your chosen **ServingRuntime** and the [deploying models](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform) documentation.

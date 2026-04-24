@@ -23,7 +23,7 @@
 ## Core concepts
 
 **KServe Model Serving**  
-Each deployed model gets its own serving deployment. This pattern suits predictive and large language models that need isolation and predictable resources. Details and diagrams are in Red Hat’s guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+Each deployed model gets its own serving deployment. This pattern suits predictive and large language models that need isolation and predictable resources. Details and diagrams are in Red Hat’s guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
 **Other approaches (context only)**  
 - **Distributed inference** (for example **llm-d** where available): scaled-out LLM inference across multiple pods.  

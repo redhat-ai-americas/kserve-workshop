@@ -40,7 +40,7 @@ You pushed an image with Podman and recorded **`oci://quay.io/<org>/<repo>:<tag>
 
 
 1. **Model Location:** Pick URI.  
-2. **URI:** Enter the quay image path with **oci://**. For examople: oci://quay.io/rh-ee-petdavis/mobilenet-onnx-workshop:1
+2. **URI:** Enter the quay image path with **oci://**. For example: `oci://quay.io/rh-ee-petdavis/mobilenet-onnx-workshop:1`
 3. **Name:** Choose a model name.
 4. **Model type:** choose Predictive.  
 5. **Connection:** select `create a connection to this location` so the serving workload can pull the image.  

@@ -15,7 +15,7 @@
 ### Rationale
 
 - The dashboard is fastest for one-offs; YAML under version control is how teams standardize pulls, resources, and ServingRuntime settings, and promote them through review and automation.
-- The model `InferenceService` we will use sets `opendatahub.io/hardware-profile-name: nvidia-gpu`. OpenShift AI uses `HardwareProfile` objects (in `redhat-ods-applications`) to turn that name into CPU, memory, accelerator**, and scheduling defaults. If the `HardwareProfile` is missing, the controller won't create the pods because it doesn't see any available resources.
+- The model `InferenceService` we will use sets `opendatahub.io/hardware-profile-name: nvidia-gpu`. OpenShift AI uses `HardwareProfile` objects (in `redhat-ods-applications`) to turn that name into CPU, memory, accelerator, and scheduling defaults. If the `HardwareProfile` is missing, the controller won't create the pods because it doesn't see any available resources.
 
 ## Hardware profile 
 

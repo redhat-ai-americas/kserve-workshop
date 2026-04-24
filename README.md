@@ -1,6 +1,6 @@
 # kserve-workshop
 
-Hands-on workshop for deploying models on KServe in Red Hat OpenShift AI Self-Managed. Content aligns with the official guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+Hands-on workshop for deploying models on KServe in Red Hat OpenShift AI Self-Managed. Content aligns with the official guide: [Deploying models on the single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
 **Audience:** Data scientists, ML engineers, and platform admins who deploy or serve models at scale. Prior experience with OpenShift projects, model storage (S3/OCI/PVC), and basic YAML is recommended.
 

@@ -71,7 +71,7 @@ A model car image has been pre-built and published to Quay; participants can ski
 
 ## Track B — PVC / workbench
 
-This track follows Red Hat’s documented flow: Upload model files to the PVC attached to a workbench, then deploy using existing cluster storage. For the upstream procedure, see *Deploying models* → Uploading model files to a Persistent Volume Claim (PVC) in [Red Hat OpenShift AI documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
+This track follows Red Hat’s documented flow: Upload model files to the PVC attached to a workbench, then deploy using existing cluster storage. For the upstream procedure, see *Deploying models* → Uploading model files to a Persistent Volume Claim (PVC) in [Red Hat OpenShift AI documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
 ### 1. Open the `kserve-workshop` project
 
@@ -88,7 +88,7 @@ This track follows Red Hat’s documented flow: Upload model files to the PVC at
 4. **Image:** choose `Jupyter | Minimal | CPU | Python 3.12`.
 5. Create the workbench and wait until its state is **Running**.
 
-More detail: [Creating a project workbench](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html/working_on_projects/using-project-workbenches_projects) (adjust the doc version to match your install).
+More detail: [Creating a project workbench](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html/working_on_projects/using-project-workbenches_projects) (adjust the doc version to match your install).
 
 ### 3. Open the workbench
 
@@ -117,7 +117,7 @@ The workbench PVC is usually ReadWriteOnce: only one pod can mount it at a time.
 
 For Deploy model (Topic 3), you will choose existing cluster storage / PVC and a path to the model file on that volume.
 
-- **PVC:** select the PVC name attached to this workbench. This can be found in the OpenShift AI dashboard under the project’s **Cluster storage** tab. 
+- **PVC:** select the PVC name attached to this workbench. This can be found in the OpenShift AI dashboard under the project’s **Cluster storage** tab. For example, `kserve-lab-storage` if you used the workbench name above. 
 - **Path:** relative to that volume’s root—e.g. You will just use the model root. For example, `models/` if you used the layout above.
 
 Write these down; Topic 3 uses them in the platform.

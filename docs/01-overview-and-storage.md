@@ -27,7 +27,8 @@ Each deployed model gets its own serving deployment. This pattern suits predicti
 
 **Other approaches (context only)**  
 - **Distributed inference** (for example **llm-d** where available): scaled-out LLM inference across multiple pods.  
-- **NVIDIA NIM**: optimized inference microservices; OpenShift AI supported deployments.
+- **NVIDIA NIM**: optimized inference microservices; OpenShift AI supported deployments.  
+- **Red Hat AI Inference Server** on OpenShift without the OpenShift AI dashboard stack: standard **`Deployment`** / **`Service`** / **`Route`** pattern—see [Topic 8](/docs/08-red-hat-ai-inference-server.md).
 
 **Model storage**
 

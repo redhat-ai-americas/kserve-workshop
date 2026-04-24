@@ -4,7 +4,7 @@ Hands-on workshop for deploying models on KServe in Red Hat OpenShift AI Self-Ma
 
 **Audience:** Data scientists, ML engineers, and platform admins who deploy or serve models at scale. Prior experience with OpenShift projects, model storage (S3/OCI/PVC), and basic YAML is recommended.
 
-**Duration:** About 90–120 minutes, including labs.
+**Duration:** About 90–120 minutes for Topics **0–7**; optional **Topic 8** adds ~10–15 minutes.
 
 **Format:** Short overview → live dashboard and CLI demonstrations → guided exercises → Q&A and troubleshooting.
 
@@ -22,6 +22,7 @@ Participants should be able to:
 - Call a generative model over HTTPS from a workbench using the bundled notebook.
 - Tune **vLLM** arguments in **`ServingRuntime`** YAML, verify readiness.
 - Apply common troubleshooting steps for runtime mismatches, resource pressure, and image pull issues.
+- Contrast **Red Hat AI Inference Server** on plain OpenShift (product deploy guide) with the **OpenShift AI** `InferenceService` path used in this workshop.
 
 ## Lab sequence
 
@@ -35,6 +36,7 @@ Participants should be able to:
 | [5 – Generative inference](/docs/05-generative-inference-workbench.md) | Route + SA token secret, notebook on a workbench |
 | [6 – vLLM tuning & monitoring](/docs/06-advanced-deployment.md) | **ServingRuntime** YAML args, **`oc apply`**, verification, metrics |
 | [7 – Troubleshooting & practices](/docs/07-troubleshooting-best-practices.md) | Pitfalls, deploy vs debug practices, optional failure exercise |
+| [8 – Red Hat AI Inference Server](/docs/08-red-hat-ai-inference-server.md) | OCP deploy guide vs `InferenceService`; operators, `Deployment`, route (optional lab) |
 
 ## Primary documentation
 

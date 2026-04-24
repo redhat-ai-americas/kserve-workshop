@@ -3,7 +3,7 @@
 <p align="center">
 <a href="/docs/06-advanced-deployment.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
-<a href="/README.md">Next</a>
+<a href="/docs/08-red-hat-ai-inference-server.md">Next</a>
 </p>
 
 ### Objectives
@@ -69,5 +69,5 @@ oc describe inferenceservice <name> -n kserve-workshop
 <p align="center">
 <a href="/docs/06-advanced-deployment.md">Prev</a>
 &nbsp;&nbsp;&nbsp;
-<a href="/README.md">Next</a>
+<a href="/docs/08-red-hat-ai-inference-server.md">Next</a>
 </p>

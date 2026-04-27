@@ -1,6 +1,5 @@
-# Namespace for RHAIS sample workloads (Topic 8).
-# Aligns with product documentation examples.
+# Optional: ensure the Topic 8 / RHAIIS namespace exists (idempotent if you already ran `oc new-project rhaii-namespace`).
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: rhaiis-namespace
+  name: rhaii-namespace

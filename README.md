@@ -4,7 +4,7 @@ Hands-on workshop for deploying models on KServe in Red Hat OpenShift AI Self-Ma
 
 **Audience:** Data scientists, ML engineers, and platform admins who deploy or serve models at scale. Prior experience with OpenShift projects, model storage (S3/OCI/PVC), and basic YAML is recommended.
 
-**Duration:** About 90–120 minutes for Topics **0–7**; optional **Topic 8** adds ~10–15 minutes.
+**Duration:** About 90–120 minutes for Topics **0–7**; optional **Topic 8** adds ~20–30 minutes.
 
 **Format:** Short overview → live dashboard and CLI demonstrations → guided exercises → Q&A and troubleshooting.
 
@@ -36,7 +36,7 @@ Participants should be able to:
 | [5 – Generative inference](/docs/05-generative-inference-workbench.md) | Route + SA token secret, notebook on a workbench |
 | [6 – vLLM tuning & monitoring](/docs/06-advanced-deployment.md) | **ServingRuntime** YAML args, **`oc apply`**, verification, metrics |
 | [7 – Troubleshooting & practices](/docs/07-troubleshooting-best-practices.md) | Pitfalls, deploy vs debug practices, optional failure exercise |
-| [8 – Red Hat AI Inference Server](/docs/08-red-hat-ai-inference-server.md) | `configs/samples/rhaiis-deploy/` manifests; operators, `Deployment`, Service, Route (optional lab) |
+| [8 – Red Hat AI Inference Server](/docs/08-red-hat-ai-inference-server.md) | `configs/samples/rhaiis-deploy/` in **`rhaii-namespace`**; operators, `Deployment`, Service, Route (optional lab) |
 
 ## Primary documentation
 

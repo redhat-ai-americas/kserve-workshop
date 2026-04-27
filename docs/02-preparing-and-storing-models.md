@@ -8,19 +8,19 @@
 
 ### Objectives
 
-- Use the **bundled MobileNet v2 ONNX** model shipped in this repository (no Hugging Face or external download required).
+- Use the bundled MobileNet v2 ONNX model shipped in this repository (no Hugging Face or external download required).
 # Pick a path:
-- **Track A:** Package the same file into an **OCI** image with Podman and push to a registry you can use (e.x. **Quay**).
-- **Track B:** Place the model on a **PVC** via a workbench when registry access is limited.
+- Track A: Package the same file into an OCI image with Podman and push to a registry you can use (e.x. Quay).
+- Track B: Place the model on a PVC via a workbench when registry access is limited.
 
 ### Rationale
 
-- The deployment platform and `InferenceService` both expect a consistent on-disk layout and model format for the chosen runtime (for this lab: **ONNX** with an OpenVINO).
+- The deployment platform and `InferenceService` both expect a consistent on-disk layout and model format for the chosen runtime (for this lab: ONNX with an OpenVINO).
 
 ### Takeaways
 
-- The workshop standardizes on **`extras/models/mobilenetv2-7.onnx`** so everyone has the same artifact after `git clone`.
-- OCI layouts use a **version** folder under `models/` (here: **`models/1/`**).
+- The workshop standardizes on `extras/models/mobilenetv2-7.onnx` so everyone has the same artifact after `git clone`.
+- OCI layouts use a version folder under `models/` (here: `models/1/`).
 - PVC workflow: put files where the workbench and serving storage can see them (commonly under `/opt/app-root/src/` or a mounted PVC path).
 
 ## Sample model in this repository
@@ -62,9 +62,9 @@ podman login quay.io
 podman push quay.io/<org>/<repo>:<tag>
 ```
 
-Record **`oci://quay.io/<org>/<repo>:<tag>`** for the platform flow or YAML.
+Record `oci://quay.io/<org>/<repo>:<tag>` for the platform flow or YAML.
 
-**Option B — Facilitator-only image**  
+Option B — Facilitator-only image  
 A model car image has been pre-built and published to Quay; participants can skip the image build and push process, and reference `quay.io/rh-ee-petdavis/mobilenet-onnx-workshop:1` in the later step.
 
 ---
@@ -75,18 +75,18 @@ This track follows Red Hat’s documented flow: Upload model files to the PVC at
 
 ### 1. Open the `kserve-workshop` project
 
-1. Log in to the **OpenShift AI** dashboard.
-2. Go to **Projects**).
+1. Log in to the OpenShift AI dashboard.
+2. Go to Projects.
 3. Switch the filter from A.I. projects to All projects.
-3. Open the **`kserve-workshop`** project ([Topic 0](/docs/00-setup.md)).
+3. Open the `kserve-workshop` project ([Topic 0](/docs/00-setup.md)).
 
 ### 2. Create a workbench
 
-1. Open the **Workbenches** tab for that project.
-2. Click **Create workbench**.
-3. **Name:** e.g. `kserve-lab`.
-4. **Image:** choose `Jupyter | Minimal | CPU | Python 3.12`.
-5. Create the workbench and wait until its state is **Running**.
+1. Open the Workbenches tab for that project.
+2. Click Create workbench.
+3. Name: e.g. `kserve-lab`.
+4. Image: choose `Jupyter | Minimal | CPU | Python 3.12`.
+5. Create the workbench and wait until its state is Running.
 
 More detail: [Creating a project workbench](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.2/html/working_on_projects/using-project-workbenches_projects) (adjust the doc version to match your install).
 
@@ -96,7 +96,7 @@ More detail: [Creating a project workbench](https://docs.redhat.com/en/documenta
 
 ### 4. Place `mobilenetv2-7.onnx` under `/opt/app-root/src/`
 
-**Clone the repo inside the workbench terminal**
+Clone the repo inside the workbench terminal
 
 1. Open a terminal in the workbench
 2. Run:
@@ -109,16 +109,16 @@ More detail: [Creating a project workbench](https://docs.redhat.com/en/documenta
    ls -la models/mobilenetv2-7.onnx
    ```
 
-**Stop the workbench after copying (before Topic 3 deploy)**
+Stop the workbench after copying (before Topic 3 deploy)
 
-The workbench PVC is usually ReadWriteOnce: only one pod can mount it at a time. After your model file is on the volume, stop the workbench from **`kserve-workshop`** (**Workbenches** → stop). That releases the PVC so Deploy model in Topic 3 can use the same storage.
+The workbench PVC is usually ReadWriteOnce: only one pod can mount it at a time. After your model file is on the volume, stop the workbench from `kserve-workshop` (Workbenches → stop). That releases the PVC so Deploy model in Topic 3 can use the same storage.
 
 ### 5. Record PVC name and path for Topic 3
 
 For Deploy model (Topic 3), you will choose existing cluster storage / PVC and a path to the model file on that volume.
 
-- **PVC:** select the PVC name attached to this workbench. This can be found in the OpenShift AI dashboard under the project’s **Cluster storage** tab. For example, `kserve-lab-storage` if you used the workbench name above. 
-- **Path:** relative to that volume’s root—e.g. You will just use the model root. For example, `models/` if you used the layout above.
+- PVC: select the PVC name attached to this workbench. This can be found in the OpenShift AI dashboard under the project’s Cluster storage tab. For example, `kserve-lab-storage` if you used the workbench name above. 
+- Path: relative to that volume’s root—e.g. You will just use the model root. For example, `models/` if you used the layout above.
 
 Write these down; Topic 3 uses them in the platform.
 
@@ -126,13 +126,13 @@ Write these down; Topic 3 uses them in the platform.
 
 ## Formats and runtime
 
-- **ONNX** — pair with an OpenVINO `ServingRuntime` on your cluster.
+- ONNX — pair with an OpenVINO `ServingRuntime` on your cluster.
 
 ## Exercise (~25–35 min)
 
-- [ ] **Everyone:** Confirm `extras/models/mobilenetv2-7.onnx` is present after clone (`ls -la extras/models/`).
-- [ ] **Track A:** Image builds locally and pushes successfully; record `oci://...` for Topic 3–4.
-- [ ] **Track B:** Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3; workbench stopped before Topic 3 deploy (same PVC).
+- [ ] Everyone: Confirm `extras/models/mobilenetv2-7.onnx` is present after clone (`ls -la extras/models/`).
+- [ ] Track A: Image builds locally and pushes successfully; record `oci://...` for Topic 3–4.
+- [ ] Track B: Model file is under `/opt/app-root/src/...` in the workbench; PVC + relative path recorded for Topic 3; workbench stopped before Topic 3 deploy (same PVC).
 
 
 <p align="center">

@@ -10,11 +10,11 @@
 
 - Tune vLLM by editing the `ServingRuntime` YAML you applied in [Topic 4](/docs/04-yaml-and-cli.md), then `oc apply` again.  
 - Re-verify readiness and a short inference smoke test after the change.  
-- Locate **metrics** for the deployment in the dashboard and optionally in **OpenShift Observe**.
+- Locate metrics for the deployment in the dashboard and optionally in OpenShift Observe.
 
 ### Rationale
 
-- You already deployed the stack from Git-tracked YAML; changing **`spec.containers[].args`** in the same file keeps reviews, diffs, and repeatability aligned with how you introduced the runtime—no one-off GUI drift.
+- You already deployed the stack from Git-tracked YAML; changing `spec.containers[].args` in the same file keeps reviews, diffs, and repeatability aligned with how you introduced the runtime—no one-off GUI drift.
 
 ### Takeaways
 
@@ -26,9 +26,10 @@
 
 Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/configs/samples/model-deploy/vllm-servingruntime.yaml). The `granite-3-1-8b-instruct` `ServingRuntime` sets `spec.containers[0].args` for the vLLM process (alongside `command`: `python -m vllm.entrypoints.openai.api_server`).
 
-1. Copy the file to `scratch/` if you prefer not to edit the repo copy:
+1. Copy the file to `scratch/` if you prefer not to edit the repo copy (`mkdir -p scratch` first if that directory does not exist yet):
 
    ```sh
+   mkdir -p scratch
    cp configs/samples/model-deploy/vllm-servingruntime.yaml scratch/vllm-servingruntime.yaml
    ```
 
@@ -56,13 +57,13 @@ Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/config
    oc get events -n kserve-workshop --sort-by=.lastTimestamp | tail -20
    ```
 
-- [ ] **`oc apply`** succeeds and pods become Ready without crash loops.
+- [ ] `oc apply` succeeds and pods become Ready without crash loops.
 
 ## Verification
 
-- [ ] **Dashboard** — Deployment Started
-- [ ] **CLI** — `oc get inferenceservice granite-3-1-8b-instruct -n kserve-workshop` and `oc describe inferenceservice granite-3-1-8b-instruct -n kserve-workshop` for **conditions** and **events**. Inspect the new args in the servingruntime `oc describe servingruntime granite-3-1-8b-instruct`
-- [ ] **Inference** — Repeat a quick call from [Topic 5](/docs/05-generative-inference-workbench.md) (notebook or `/v1/models` / `/v1/chat/completions`) with the same Bearer token and inference endpoint.
+- [ ] Dashboard — Deployment Started
+- [ ] CLI — `oc get inferenceservice granite-3-1-8b-instruct -n kserve-workshop` and `oc describe inferenceservice granite-3-1-8b-instruct -n kserve-workshop` for conditions and events. Inspect the new args in the servingruntime `oc describe servingruntime granite-3-1-8b-instruct`
+- [ ] Inference — Repeat a quick call from [Topic 5](/docs/05-generative-inference-workbench.md) (notebook or `/v1/models` / `/v1/chat/completions`) with the same Bearer token and inference endpoint.
 
 
 <p align="center">

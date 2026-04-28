@@ -35,12 +35,13 @@ Workshop file: [`configs/samples/model-deploy/vllm-servingruntime.yaml`](/config
 
 2. Edit `args:` under `spec.containers` (same file in-repo or under `scratch/`). The sample already includes a Topic 6 block with example flags. Change the numbers to match your GPU memory and latency goals, or remove lines you do not want.
 
-| Example args (two YAML entries per flag) | Role |
-|------------------------------------------|------|
-| `--max-model-len` / `"8192"` | Cap context + KV cache. |
-| `--gpu-memory-utilization` / `"0.90"` | GPU memory fraction for vLLM. |
-| `--dtype` / `auto` | Precision selection (`bfloat16` if your team standardizes on it). |
-| `--max-num-seqs` / `"256"` | Concurrent sequences ceiling. |
+
+| Example args (two YAML entries per flag) | Role | Conservative / safe | Typical | Aggressive |
+|------------------------------------------|------|----------------------|---------|------------|
+| `--max-model-len` / `"8192"` | Cap context + KV cache. | `2048` or `4096` (small GPU or large model) | `8192` | `16384`–`32768` or model max when VRAM allows |
+| `--gpu-memory-utilization` / `"0.90"` | GPU memory fraction for vLLM. | `0.85`–`0.88` (shared GPU or OOM) | `0.90` | `0.92`–`0.95` only when stable; higher OOM risk |
+| `--dtype` / `auto` | Precision selection (`bfloat16` if your team standardizes on it). | `auto` (let vLLM pick) | `bfloat16` on Ampere+ / many AMD | `float16` if BF16 is awkward; avoid `float32` unless you know you need it |
+| `--max-num-seqs` / `"256"` | Concurrent sequences ceiling. | `32`–`64` (one busy GPU or tight memory) | `128`–`256` | `512+` only on large GPUs after testing; too high hurts memory and tail latency |
 
 3. Apply the updated `ServingRuntime`:
 

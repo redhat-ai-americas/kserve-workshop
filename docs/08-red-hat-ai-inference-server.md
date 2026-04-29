@@ -1,4 +1,4 @@
-# 8. Red Hat AI Inference Server on OpenShift (optional)
+# 8. Red Hat AI Inference Server on OpenShift
 
 <p align="center">
 <a href="/docs/07-troubleshooting-best-practices.md">Prev</a>
